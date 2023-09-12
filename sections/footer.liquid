@@ -1,0 +1,239 @@
+{% assign content = section.settings %}
+<!-- Footer style two section start here -->
+<section class="ic-footer style-two">
+    <!-- Footer top -->
+    <div class="ic-footer-top ic-padding-120">
+        <div class="container">
+            <div class="row">
+                <!-- Footer widget -->
+                <div class="col-lg-5 col-md-12">
+                    <div class="ic-footer-item">
+                        <h3 class="ic-footer-widget-title">{{ shop.name }}</h3>
+                        <div class="ic-footer-widget-content">
+                            <div class="ic-footer-widget-about">
+                                {% if content.footer_left_content != blank %}
+                                    <p>{{ content.footer_left_content }}</p>
+                                {% endif %}
+                                {% for block in section.blocks %}
+                                    {% case block.type %}
+                                        {% when 'footer_social_icons' %}
+                                            <ul class="ic-social-profile">
+                                                {% if block.settings.facebook ==true %}
+                                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                                {% endif %}
+                                                {% if block.settings.twitter ==true %}
+                                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                                {% endif %}
+                                                {% if block.settings.instagram ==true %}
+                                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                                {% endif %}
+                                                {% if block.settings.pinterest ==true %}
+                                                    <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                                {% endif %}
+                                                {% if block.settings.vk ==true %}
+                                                    <li><a href="#"><i class="fab fa-vk"></i></a></li>
+                                                {% endif %}
+                                                {% if block.settings.youtube ==true %}
+                                                    <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                                                {% endif %}
+                                            </ul>
+                                        {% else %}
+                                            
+                                    {% endcase %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer widget -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="ic-footer-item">
+                        {% if content.footer_menu_title != blank %}
+                            <h3 class="ic-footer-widget-title">Help & Links</h3>
+                        {% endif %}
+                        <div class="ic-footer-widget-content">
+                            <ul class="ic-footer-menu">
+                                {% for item in content.footer_menu_links.links %}
+                                    <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer widget -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="ic-footer-item">
+                        {% if content.footer_contact_title != blank %}
+                            <h3 class="ic-footer-widget-title">{{ content.footer_contact_title }}</h3>
+                        {% endif %}
+                        <div class="ic-footer-widget-content">
+                            {% if content.footer_address_title != blank or content.footer_address_content != blank %}
+                                <div class="ic-contact-item">
+                                    <h6 class="ic-contact-title">{{ content.footer_address_title }}</h6>
+                                    <p class="ic-contact-info"> {{ content.footer_address_content }}</p>
+                                </div>
+                            {% endif %}
+                            {% if content.footer_phone_title != blank or content.footer_phone_content != blank %}
+                                <div class="ic-contact-item">
+                                    <h6 class="ic-contact-title">{{ content.footer_phone_title }}</h6>
+                                    <p class="ic-contact-info"><a href="tel:{{ content.footer_phone_content }}">{{ content.footer_phone_content }}</a></p>
+                                </div>
+                            {% endif %}
+                            {% if content.footer_email_title != blank or content.footer_email_content != blank %}
+                                <div class="ic-contact-item">
+                                    <h6 class="ic-contact-title">{{ content.footer_email_title }}</h6>
+                                    <p class="ic-contact-info"><a href="mailto:{{ content.footer_email_content }}">{{ content.footer_email_content }}</a></p>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer bottom -->
+    <div class="ic-footer-bottom ic-padding-40">
+        <div class="container">
+            {% if content.footer_copyright_text != blank %}
+                <div class="ic-copyright-text text-center">
+                    <p>{{ content.footer_copyright_text }}</p>
+                </div>
+            {% endif %}
+            {% if content.footer_bottom_payment_logo != blank %}
+                <div class="ic-footer-payment text-center">
+                    <img src="{{ content.footer_bottom_payment_logo | img_url: '1920x' }}" alt="{{ content.footer_bottom_payment_logo.alt }}">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<!-- Footer style two section end here -->
+
+<!-- scroll to top start here -->
+<div class="ic-scroll-top">
+  <svg class="ic-scroll-top-circle" viewBox="-1 -1 102 102">
+      <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+  </svg>
+</div>
+<!-- scroll to top end here -->
+
+
+{% schema %}
+    {
+        "name": "Template Footer",
+        "settings": [
+            {
+                "type": "textarea",
+                "id": "footer_left_content",
+                "label": "Footer Left Content"
+            },
+            {
+                "type": "text",
+                "id": "footer_menu_title",
+                "label": "Footer Help Menu Title"
+            },
+            {
+                "type": "link_list",
+                "id": "footer_menu_links",
+                "label": "Footer Menu Links"
+            },
+            {
+                "type": "text",
+                "id": "footer_contact_title",
+                "label": "Footer contact title"
+            },
+            {
+                "type": "text",
+                "id": "footer_address_title",
+                "label": "Footer address title"
+            },
+            {
+                "type": "text",
+                "id": "footer_address_content",
+                "label": "Footer address content"
+            },
+            {
+                "type": "text",
+                "id": "footer_phone_title",
+                "label": "Footer phone title"
+            },
+            {
+                "type": "text",
+                "id": "footer_phone_content",
+                "label": "Footer phone content"
+            },
+            {
+                "type": "text",
+                "id": "footer_email_title",
+                "label": "Footer email title"
+            },
+            {
+                "type": "text",
+                "id": "footer_email_content",
+                "label": "Footer email content"
+            },
+            {
+                "type": "image_picker",
+                "id": "footer_bottom_payment_logo",
+                "label": "Payment method logo"
+            },
+            {
+                "type": "liquid",
+                "id": "footer_copyright_text",
+                "label": "Copyright Text"  
+            }
+           
+        ],
+      
+        "blocks": [
+            {
+                "name": "Footer Social Icons",
+                "type": "footer_social_icons",
+                "limit": 1,
+                "settings": [
+                    {
+                        "type": "checkbox",
+                        "id": "facebook",
+                        "label": "Facebook",
+                        "default": true
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "twitter",
+                        "label": "Twitter",
+                        "default": true
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "instagram",
+                        "label": "Instagram",
+                        "default": true
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "pinterest",
+                        "label": "Pinterest",
+                        "default": true
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "vk",
+                        "label": "VKontakte",
+                        "default": true
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "youtube",
+                        "label": "Youtube",
+                        "default": true
+                    }
+                ]
+            }
+        ]
+    
+    }
+{% endschema %}
