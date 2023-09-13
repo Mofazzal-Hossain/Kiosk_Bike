@@ -1,0 +1,46 @@
+<!-- Partner section start here-->
+<section class="ic-partner ic-padding-120">
+    <div class="container">
+        <div class="ic-partner-slider ic-partner-items">
+            {% for block in section.blocks %}
+                {% case block.type %}
+                    {% when 'partner' %}
+                        <div class="ic-partner-item text-center">
+                            {% if block.settings.partner_slide_image %}
+                                <img src="{{ block.settings.partner_slide_image | img_url: '1920x' }}" class="m-auto" alt="partner-image">
+                            {% else %}
+                                {{ "lifestyle-1" | placeholder_svg_tag: 'w-100' }}
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        
+                {% endcase %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- Partner section end here-->
+
+{% schema %}
+    {
+        "name": "Home Partner",
+        "blocks": [
+            {
+                "name": "Partner Slide",
+                "type": "partner",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "partner_slide_image",
+                        "label": "Partner Slide Image"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Home Partner"
+            }
+        ]
+    }
+{% endschema %}

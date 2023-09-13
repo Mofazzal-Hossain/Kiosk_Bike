@@ -1,8 +1,11 @@
 {
     "sections": {
+        "banner":{
+            "type": "home-banner"
+        },
         "template":{
-            "type": "template-index"
+            "type": "template-home"
         }
     },
-    "order": ["template"]
+    "order": ["banner","template"]
 }

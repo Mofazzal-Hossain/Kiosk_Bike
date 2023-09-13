@@ -1,0 +1,91 @@
+
+<!-- Overview style two section start here-->
+<section class="ic-overview style-two">
+    <div class="row">
+        {% for block in section.blocks %}
+            {% case block.type %}
+                {% when 'features-item' %}
+                    <!-- Overview item -->
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="ic-overview-item wow fadeInLeft 
+                            {% if forloop.first %}
+                                ic-overview-item-left
+                            {% endif %}
+                        ">
+                            {% if block.settings.background_image %}
+                                <img src="{{ block.settings.background_image | img_url: '1920x' }}" alt="overview">
+                            {% else %}
+                                {{ 'lifestyle-2' | placeholder_svg_tag: 'w-100' }}
+                            {% endif %}
+                            <div class="ic-overview-item-content">
+                                {% if block.settings.short_title !=blank %}
+                                    <h4 class="ic-short-title">{{ block.settings.short_title }}</h4>
+                                {% endif %}
+                                {% if block.settings.title !=blank %}
+                                    <h1 class="ic-overview-title">{{ block.settings.title }}</h1>
+                                {% endif %}
+                                {% if block.settings.button_title !=blank %}
+                                    <a href="{{ block.settings.button_url }}" class="ic-custom-btn
+                                        {% if forloop.first %}
+                                            theme-color
+                                        {%  else %}
+                                            black-hover
+                                        {% endif %}
+                                    ">
+                                        {{ block.settings.button_title }}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+            {% endcase %}
+        {% endfor %}
+    </div>
+</section>
+<!-- Overview style two section end here-->
+
+{% schema %}
+    {
+        "name": "Home Features 02",
+       
+        "blocks": [
+            {
+                "name": "Feature item",
+                "type": "features-item",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "background_image",
+                        "label": "Background Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "short_title",
+                        "label": "Short Title"
+                    },
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "text",
+                        "id": "button_title",
+                        "label": "Button Title"
+                    },
+                    {
+                        "type": "url",
+                        "id": "button_url",
+                        "label": "Button URL"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Home Features 02"
+            }
+        ]
+    }
+{% endschema %}

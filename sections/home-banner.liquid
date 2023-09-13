@@ -1,0 +1,116 @@
+<!-- Banner Slider section start here -->
+<section class="ic-slider-section">
+    <div class="ic-banner-slider owl-carousel">
+        {% for block in section.blocks %}
+            {% case block.type %}
+                {% when 'home-banner-slide' %}
+                    <!-- Banner slider item -->
+                    <div class="ic-banner-slider-item slider-item-1 ic-slider-animated-1" style="background-image: url({{ block.settings.slide_bg_image | img_url: '1920x' }});">
+                        <div class="ic-banner-content">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-8 col-sm-8">
+                                        {% if block.settings.slide_short_title != blank %}
+                                            <h3 class="ic-banner-short-title animated">{{ block.settings.slide_short_title }}</h3>
+                                        {% endif %}
+                                        {% if block.settings.slide_title != blank %}
+                                            <h1 class="ic-banner-title animated">{{ block.settings.slide_title }}</h1>
+                                        {% endif %}
+                                        {% if block.settings.slide_description != blank %}
+                                            <p class="animated">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do mod tempor incididunt ut labore ettemi dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
+                                        {% endif %}
+                                        {% if block.settings.slide_button_title != blank %}
+                                            <a href="{{ block.settings.slide_button_url }}" class="ic-custom-btn theme-color animated">{{ block.settings.slide_button_title }}</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+            {% endcase %}
+        {% endfor %}
+    </div>
+
+    <!-- Banner carousel dots -->
+    <div class="ic-carousel-custom-dots">
+        {% for block in section.blocks %}
+            {% case block.type %}
+                {% when 'home-banner-slide' %}
+                    <div class="ic-owl-dot">
+                        <div class="ic-dot-text">0{{ forloop.index  }} <span class="ic-slider-count">/ 0{{ forloop.length }}</span>{{ block.settings.slider_dot_text }}</div>
+                        <div class="ic-owl-circle"></div>
+                    </div>
+                {% else %}
+            {% endcase %}
+        {% endfor %}
+    </div>
+
+    <!-- Banner slider progress -->
+    <div class="ic-banner-slider-progress">
+        {% style %}
+            .ic-banner-slider-progress::after{
+                background-image:  url({{ section.settings.slider_progress_img | img_url: '1920x' }});
+            }
+        {% endstyle %}
+    </div>
+</section>
+<!-- Banner Slider section end here -->
+
+
+{% schema %}
+    {
+        "name": "Home Banner",
+        "settings": [
+            {
+                "type": "image_picker",
+                "id": "slider_progress_img",
+                "label": "Slider Progress Image"
+            }
+        ],
+        "blocks": [
+            {
+                "name": "Home Banner Slide",
+                "type": "home-banner-slide",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "slide_bg_image",
+                        "label": "Slide Background Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "slide_short_title",
+                        "label": "Slide Short title"
+                    },
+                    {
+                        "type": "text",
+                        "id": "slide_title",
+                        "label": "Slide Title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "slide_description",
+                        "label": "Slide Description"
+                    },
+                    {
+                        "type": "text",
+                        "id": "slide_button_title",
+                        "label": "Slide Button Title"
+                    },
+                    {
+                        "type": "url",
+                        "id": "slide_button_url",
+                        "label": "Slide Button URL"
+                    },
+                    {
+                        "type": "text",
+                        "id": "slider_dot_text",
+                        "label": "Slider Dot Text",
+                        "default": "Sports Bike"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

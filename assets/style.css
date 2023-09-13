@@ -2466,8 +2466,7 @@ header.ic-header {
     bottom: 0;
     z-index: 99;
     height: 5rem;
-    width: 7.2rem;
-    background-image: url(../images/banner/mini-bike.png); }
+    width: 7.2rem;}
     @media only screen and (max-width: 767.98px) {
       .ic-banner-slider-progress:after {
         width: 6rem;

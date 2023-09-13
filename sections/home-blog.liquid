@@ -1,0 +1,85 @@
+
+
+<!-- Blog section start here-->
+<section class="ic-blog-section ic-padding-120 ic-section-bg-2">
+    <div class="container">
+
+        <!-- Section Header -->
+        <div class="ic-section-header wow fadeInUp" data-wow-delay="0.2s">
+            {% if section.settings.heading_title != blank%}
+                <h1 class="ic-header-title">
+                    {{ section.settings.heading_title }}
+                    {% if section.settings.heading_end_text != blank%}
+                        <span>{{ section.settings.heading_end_text }}</span>
+                    {% endif %}
+
+                </h1>
+            {% endif %}
+            {% if section.settings.heading_subtitle != blank %}
+                <span class="ic-header-divider"></span>
+                <h6 class="ic-header-subtitle"> {{ section.settings.heading_subtitle }} </h6>
+            {% endif %}
+        </div>
+        <div class="ic-space-60"></div>
+        <div class="row">
+            {% for article in section.settings.blog.articles %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="ic-blog-item wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="ic-blog-thumb">
+                            <a href="single.html">
+                                {% if article.image != blank %}
+                                    <img src="{{ article.image | img_url: "1920x" }}" alt="blog-thumbnail">
+                                {% else %}
+                                    {{ 'lifestyle-2' | placeholder_svg_tag: "w-100 h-100" }}
+                                {% endif %}
+                                <div class="ic-posted-on">{{ article.created_at | date: "%d %b, %Y" }}</div>
+                            </a>
+                        </div>
+                        <div class="ic-blog-content">
+                            <div class="ic-post-meta">
+                                <span class="ic-post-cat"><a href="">{{ article.tags }}</a></span>
+                                <span>/</span>
+                                <span class="ic-post-author">post by {{ article.author  }}</span>
+                            </div>
+                            <h3 class="ic-blog-title"><a href="{{ article.url }}">{{ article.title }}</a></h3>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- Blog section end here-->
+
+{% schema %}
+    {
+        "name": "Home Blog",
+        "settings": [
+            {
+                "type": "text",
+                "id": "heading_title",
+                "label": "Heading Title"
+            },
+            {
+                "type": "text",
+                "id": "heading_end_text",
+                "label": "Heading title end Text"
+            },
+            {
+                "type": "text",
+                "id": "heading_subtitle",
+                "label": "Heading Subtitle"
+            },
+            {
+                "type": "blog",
+                "id": "blog",
+                "label": "Blog"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Home Blog"
+            }
+        ]
+    }
+{% endschema %}

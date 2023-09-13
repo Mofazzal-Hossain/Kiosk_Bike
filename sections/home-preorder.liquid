@@ -1,0 +1,109 @@
+
+<!-- Image Slider section start here-->
+<section class="ic-image-slider-section ic-padding-120">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="ic-section-header wow fadeInUp">
+            {% if section.settings.heading_title != blank%}
+                <h1 class="ic-header-title">
+                    {{ section.settings.heading_title }}
+                    {% if section.settings.heading_end_text != blank%}
+                        <span>{{ section.settings.heading_end_text }}</span>
+                    {% endif %}
+                </h1>
+            {% endif %}
+            {% if section.settings.heading_subtitle != blank %}
+                <span class="ic-header-divider"></span>
+                <h6 class="ic-header-subtitle"> {{ section.settings.heading_subtitle }} </h6>
+            {% endif %}
+        </div>
+        <div class="ic-space-60"></div>
+        <div class="ic-image-slider-wrapper wow fadeInUp" data-wow-delay="0.3s">
+            <div class="ic-image-slider owl-carousel">
+                {% for block in section.blocks %}
+                    {% case block.type %}
+                        {% when 'pre_order_slide' %}
+                            <div class="ic-image-slider-item">
+                                {% if block.settings.slide_image %}
+                                    <img src="{{ block.settings.slide_image | img_url: '1920x' }}" alt="image-slider" class="animated">
+                                {% else %}
+                                    {{ 'lifestyle-1' | placeholder_svg_tag: "w-100 h-100"}}
+                                {% endif %}
+                                {% if block.settings.slide_title != blank %}
+                                    <h1 class="ic-slider-text animated">{{ block.settings.slide_title }}</h1>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                    {% endcase %}
+                {% endfor %}
+            </div>
+            <div class="ic-image-slider-nav">
+                <div class="ic-image-nav-left"><i class="icofont icofont-simple-left"></i></div>
+                <div class="ic-image-nav-right"><i class="icofont icofont-simple-right"></i></div>
+            </div>
+            {% if section.settings.button_title != blank %}
+                <div class="ic-space-40"></div>
+                <div class="text-center">
+                    <a href="{{ section.settings.button_url }}" class="ic-custom-btn ic-btn-lg theme-color">{{ section.settings.button_title }}</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<!-- Image Slider section end here-->
+
+{% schema %}
+    {
+        "name": "Home Pre Order",
+        "settings": [
+            {
+                "type": "text",
+                "id": "heading_title",
+                "label": "Heading Title"
+            },
+            {
+                "type": "text",
+                "id": "heading_end_text",
+                "label": "Heading title end Text"
+            },
+            {
+                "type": "text",
+                "id": "heading_subtitle",
+                "label": "Heading Subtitle"
+            },
+            {
+                "type": "text",
+                "id": "button_title",
+                "label": "Button Title"
+            },
+            {
+                "type": "url",
+                "id": "button_url",
+                "label": "Button URL"
+            }
+        ],
+        "blocks": [
+            {
+                "name": "Pre Order Slide",
+                "type": "pre_order_slide",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "slide_image",
+                        "label": "Slide Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "slide_title",
+                        "label": "Slide title"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Home Pre Order"
+            }
+        ]
+    }
+{% endschema %}
