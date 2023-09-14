@@ -1,4 +1,5 @@
 <!-- Banner Slider section start here -->
+
 <section class="ic-slider-section">
     <div class="ic-banner-slider owl-carousel">
         {% for block in section.blocks %}
@@ -47,14 +48,17 @@
     </div>
 
     <!-- Banner slider progress -->
-    <div class="ic-banner-slider-progress">
-        {% style %}
-            .ic-banner-slider-progress::after{
-                background-image:  url({{ section.settings.slider_progress_img | img_url: '1920x' }});
-            }
-        {% endstyle %}
-    </div>
+    {% if section.settings.slider_progress_img != blank %}
+        <div class="ic-banner-slider-progress">
+            {% style %}
+                .ic-banner-slider-progress::after{
+                    background-image:  url({{ section.settings.slider_progress_img | img_url: '1920x' }});
+                }
+            {% endstyle %}
+        </div>
+    {% endif %}
 </section>
+
 <!-- Banner Slider section end here -->
 
 

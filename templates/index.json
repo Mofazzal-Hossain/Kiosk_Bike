@@ -2,10 +2,7 @@
     "sections": {
         "banner":{
             "type": "home-banner"
-        },
-        "template":{
-            "type": "template-home"
         }
     },
-    "order": ["banner","template"]
+    "order": ["banner"]
 }

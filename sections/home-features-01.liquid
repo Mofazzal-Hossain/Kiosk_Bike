@@ -1,0 +1,97 @@
+
+<!-- Overview section start here-->
+<section class="ic-overview ic-padding-120">
+    <div class="container">
+        <div class="row">
+            {% for block in section.blocks %}
+                {% case block.type %}
+                    {% when 'features-item' %}
+                        <!-- Overview item -->
+                        <div class="{% if forloop.index > 2 %} col-lg-12 col-md-12 col-12 {% else %}col-lg-6 col-md-6 col-12{% endif %}
+                        ">
+                            <div class="ic-overview-item ic-tilt wow fadeInUp {% if forloop.index > 2 %}ic-overview-large{% endif %}" data-tilt>
+                                {% if block.settings.feature_item_image != blank %}
+                                    <img src="{{ block.settings.feature_item_image | img_url: '1920x' }}" alt="{{ block.settings.feature_item_image.alt }}">
+                                {% else %}
+                                    {{ 'lifestyle-1' | placeholder_svg_tag: 'w-100' }}
+                                {% endif %}
+                                <div class="ic-overview-item-content">
+                                    {% if block.settings.title != blank %}
+                                        {% if forloop.index == 1 %}
+                                            <h1><span>{{ block.settings.title_color_text }}</span>{{ block.settings.title }}</h1>
+                                        {% else %}
+                                            <h1>{{ block.settings.title }} <span>{{ block.settings.title_color_text }}</span></h1>
+                                        {% endif %} 
+                                    {% endif %}
+                                    {% if block.settings.description != blank %}
+                                        <p>{{ block.settings.description }}</p>
+                                    {% endif %}
+                                    {% if block.settings.button_title != blank %}
+                                        <a href="{{ block.settings.button_url }}" class="ic-custom-btn {% if forloop.index > 2 %}ic-btn-lg theme-color{% endif %}">
+                                            {{ block.settings.button_title }}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        
+                {% endcase %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- Overview section end here-->
+
+
+
+{% schema %}
+    {
+        "name": "Home Features 01",
+       
+        "blocks": [
+            {
+                "name": "Feature item",
+                "type": "features-item",
+                "limit": 3,
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "feature_item_image",
+                        "label": "Background Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "title_color_text",
+                        "label": "Title Color Text"
+                    },
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "description",
+                        "label": "Description"
+                    },
+                    {
+                        "type": "text",
+                        "id": "button_title",
+                        "label": "Button Title"
+                    },
+                    {
+                        "type": "url",
+                        "id": "button_url",
+                        "label": "Button URL"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Home Features 01"
+            }
+        ]
+    }
+{% endschema %}
