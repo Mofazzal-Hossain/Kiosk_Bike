@@ -253,21 +253,25 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
     /*-------------------------
       # Custom Modal
     -------------------------*/
-    $(document).on('click', '.ic-modal-btn', function () {
-        var dataTarget = $(this).attr('data-target');
-        $(dataTarget).addClass('ic-modal-show');
-        $('body').addClass('ic-modal-open');
+
+    
+    const quickViewButtons = document.querySelectorAll('.ic-product-quickview');
+
+    quickViewButtons.forEach((button) => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            const productData = JSON.parse($(this).attr('data-product'));
+            populateQuickViewModal(productData);
+        });
     });
-    $(document).on("click", '.ic-modal-close', function () {
-        $('.ic-modal').removeClass('ic-modal-show');
-        $('body').removeClass('ic-modal-open');
-    });
-    $(document).on('click', function(event) {
-        if (!$(event.target).closest(".ic-modal-content,.ic-modal-btn").length) {
-            $("body").removeClass("ic-modal-open");
-            $(".ic-modal").removeClass("ic-modal-show");
-        }
-    });
+
+    function populateQuickViewModal(productData) {
+        console.log(productData);
+        const quickViewModal = document.getElementById('ic-quickview-modal');
+        quickViewModal.style.display = 'block'; 
+    }
+
+
 
 
     /*-------------------------
@@ -370,7 +374,8 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
             autoplayHoverPause:true,
             nav: false,
             dots:false,
-            items: 3,
+            items:6,
+            rows: 2,
             margin: 0,
             responsive: {
                 0: {

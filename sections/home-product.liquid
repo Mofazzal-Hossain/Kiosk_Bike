@@ -1,12 +1,17 @@
 <!-- Product section start here-->
 <section class="ic-product ic-padding-bottom">
     <div class="container">
-
         <!-- Section Header -->
         <div class="ic-section-header">
-            <h1 class="ic-header-title">your <span>dream bike</span> we choice</h1>
+            {% if section.settings.title != blank%}
+                <h1 class="ic-header-title"> 
+                    {{ section.settings.title }}
+                </h1>
+            {% endif %}
             <span class="ic-header-divider"></span>
-            <h6 class="ic-header-subtitle">Stylish Design <span>&</span> Performance</h6>
+            {% if section.settings.heading_subtitle != blank %}
+                <h6 class="ic-header-subtitle">{{ section.settings.heading_subtitle  }}</h6>
+            {% endif %}
         </div>
         <div class="ic-space-60"></div>
 
@@ -16,24 +21,30 @@
                 <li class="nav-item">
                     <a class="nav-link ic-custom-btn active" data-bs-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All Bikes</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link ic-custom-btn" data-bs-toggle="tab" href="#new" role="tab" aria-controls="new" aria-selected="false">New Bikes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link ic-custom-btn" data-bs-toggle="tab" href="#used" role="tab" aria-controls="used" aria-selected="false">Used Bike</a>
-                </li>
+                {% for block in section.blocks %}
+                    {% case block.type %}
+                        {% when 'tab-item' %}
+                            <li class="nav-item">
+                                <a class="nav-link ic-custom-btn" data-bs-toggle="tab" href="#tab{{ forloop.index}}" role="tab" aria-controls="tab{{ forloop.index}}" aria-selected="false">{{ block.settings.collection.title }}</a>
+                            </li>
+                        {% else %}
+                    {% endcase %}
+                {% endfor %}
             </ul>
             <div class="ic-mobile-select-dropdown-wrap">
                 <ul class="nav nav-tabs ic-product-sldier-nav ic-mobile-select-dropdown" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link ic-custom-btn active" data-bs-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All Bikes</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link ic-custom-btn" data-bs-toggle="tab" href="#new" role="tab" aria-controls="new" aria-selected="false">New Bikes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link ic-custom-btn" data-bs-toggle="tab" href="#used" role="tab" aria-controls="used" aria-selected="false">Used Bike</a>
-                    </li>
+                    {% for block in section.blocks %}
+                        {% case block.type %}
+                            {% when 'tab-item' %}
+                                <li class="nav-item">
+                                    <a class="nav-link ic-custom-btn" data-bs-toggle="tab" href="#tab{{ forloop.index}}" role="tab" aria-controls="tab{{ forloop.index}}" aria-selected="false">{{ block.settings.collection.title }}</a>
+                                </li>
+                            {% else %}
+                        {% endcase %}
+                    {% endfor %}
                 </ul>
             </div>
             <div class="ic-product-slider-nav">
@@ -44,1371 +55,277 @@
         <div class="tab-content">
             <div class="tab-pane fade show active" id="all" role="tabpanel">
                 <div class="ic-product-slider owl-carousel">
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/01.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
+                    {% for product in collections.all.products %}
+                        <div class="ic-product-items">
+                            {% render 'product', product: product %}
                         </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/02.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/03.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/04.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/05.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/06.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/01.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/02.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/03.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/04.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/05.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/06.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="tab-pane fade" id="new" role="tabpanel">
-                <div class="ic-product-slider owl-carousel">
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/01.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
+            {% for block in section.blocks %}
+                {% case block.type %}
+                    {% when 'tab-item' %}
+                        <div class="tab-pane fade" id="tab{{ forloop.index }}" role="tabpanel">
+                            <div class="ic-product-slider owl-carousel">
+                                {% for product in block.settings.collection.products %}
+                                    <div class="ic-product-items">
+                                        {% render 'product', product: product %}
                                     </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/02.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/03.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/04.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/05.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/06.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/01.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/02.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/03.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/04.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/05.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/06.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="used" role="tabpanel">
-                <div class="ic-product-slider owl-carousel">
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/01.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/02.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/03.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/04.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/05.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/06.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/01.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/02.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/03.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/04.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ic-product-items">
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/05.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product item -->
-                        <div class="ic-product-item wow fadeInUp" data-wow-delay="=0.3s">
-                            <div class="ic-product-thumbnail">
-                                <a href="shop-single.html">
-                                    <img src="assets/images/product/bike/06.jpg" alt="bike-thumbnail">
-                                </a>
-                            </div>
-                            <div class="ic-product-content">
-                                <div class="ic-product-item-action">
-                                    <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
-                                    <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                        <i class="icofont-heart"></i>
-                                    </a>
-                                    <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal">
-                                        <i class="icofont-search"></i>
-                                    </a>
-                                </div>
-                                <div class="ic-product-content-inner">
-                                    <div class="ic-product-item-dec">
-                                        <ul>
-                                            <li>300 CC</li>
-                                            <li>Auto</li>
-                                            <li>2019</li>
-                                        </ul>
-                                    </div>
-                                    <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                                    <h4 class="ic-product-item-price">$3,588</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    {% else %}
+                        
+                {% endcase %}
+            {% endfor %}
         </div>
-        <div class="text-center">
-            <a href="shop.html" class="ic-custom-btn ic-btn-lg theme-color">View More Bikes</a>
-        </div>
-    </div>
-
-    <!-- Success Modal -->
-    <div class="modal fade" id="ic-success-cart" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="container modal-content">
-                <div class="row ic-success-cart-content">
-                    <div class="col-12">
-                        <h2 class="ic-success-message">Successfully Added To Cart</h2>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-12">
-                        <div class="ic-product-thumbnail">
-                            <img src="assets/images/product/success-cart.jpg" alt="bike-thumbnail">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-12">
-                        <div class="ic-product-content-inner">
-                            <div class="ic-product-item-dec">
-                                <ul>
-                                    <li>300 CC</li>
-                                    <li>Auto</li>
-                                    <li>2019</li>
-                                </ul>
-                            </div>
-                            <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
-                            <h4 class="ic-product-item-price">$4,999</h4>
-                            <div class="ic-product-short-specification">
-                                <ul class="ic-specification-list">
-                                    <li><span>Color:</span>Blue / Black Combination</li>
-                                    <li><span>SKU:</span>327038</li>
-                                    <li><span>Shipping Charge:</span>$200</li>
-                                    <li class="ic-total-cost"><span>Total Cost:</span>$5,199</li>
-                                </ul>
-                            </div>
-                            <div class="ic-btn-group">
-                                <a href="cart.html" class="ic-btn ic-custom-btn-rvs">View Cart</a>
-                                <a href="checkout.html" class="ic-btn ic-custom-btn theme-color">Checkout</a>
-                                <a data-bs-dismiss="modal" class="ic-btn ic-modal-close"><i class="icofont-close"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        {% if section.settings.button_title != blank %}
+            <div class="text-center">
+                <a href="{{ section.settings.button_url }}" class="ic-custom-btn ic-btn-lg theme-color">{{ section.settings.button_title }}</a>
             </div>
-        </div>
-    </div>
-
-    <!-- Quickview Modal -->
-    <div class="ic-modal" id="ic-quickview-modal">
-        <div class="ic-modal-dialog">
-            <div class="container ic-modal-content">
-                <div class="ic-modal-header">
-                    <a data-bs-dismiss="modal" class="ic-btn ic-modal-close"><i class="icofont-close"></i></a>
-                </div>
-                <div class="row ic-quickview-content">
-                    <div class="col-lg-7 col-md-12 col-sm-12">
-                        <div class="ic-product-gallery">
-                            <div class="ic-product-gallery-single">
-                                <ul class="ic-product-single-carousel">
-                                    <li>
-                                        <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
-                                            <a href="assets/images/product-single/02.jpg">
-                                                <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
-                                            <a href="assets/images/product-single/02.jpg">
-                                                <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
-                                            <a href="assets/images/product-single/02.jpg">
-                                                <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
-                                            <a href="assets/images/product-single/02.jpg">
-                                                <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
-                                            <a href="assets/images/product-single/02.jpg">
-                                                <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="ic-product-gallery-thumbs">
-                                <ul class="ic-product-thumbs-carousel slick-squared-arrow">
-                                    <li>
-                                        <img src="assets/images/product-single/thumb-1.jpg" alt="product-thumb">
-                                    </li>
-                                    <li>
-                                        <img src="assets/images/product-single/thumb-2.jpg" alt="product-thumb">
-                                    </li>
-                                    <li>
-                                        <img src="assets/images/product-single/thumb-3.jpg" alt="product-thumb">
-                                    </li>
-                                    <li>
-                                        <img src="assets/images/product-single/thumb-4.jpg" alt="product-thumb">
-                                    </li>
-                                    <li>
-                                        <img src="assets/images/product-single/thumb-5.jpg" alt="product-thumb">
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 col-md-12 col-sm-12">
-                        <div class="ic-product-single-content">
-                            <div class="ic-product-item-dec">
-                                <ul>
-                                    <li>300 CC</li>
-                                    <li>Auto</li>
-                                    <li>2019</li>
-                                </ul>
-                            </div>
-                            <h3 class="ic-product-item-title"><a href="shop-single.html">Yamaha YZF R1</a></h3>
-                            <div class="ic-review-rating-wrapper">
-                                <div class="ic-review-rating">
-                                    <ul>
-                                        <li class="active"><i class="icofont-star"></i></li>
-                                        <li class="active"><i class="icofont-star"></i></li>
-                                        <li class="active"><i class="icofont-star"></i></li>
-                                        <li class="active"><i class="icofont-star"></i></li>
-                                        <li><i class="icofont-star"></i></li>
-                                    </ul>
-                                </div>
-                                <span>(55 Reviews)</span>
-                            </div>
-                            <h4 class="ic-product-item-price"><del>$3,988</del>$3,588</h4>
-                            <div class="ic-product-short-specification">
-                                <ul class="ic-specification-list">
-                                    <li><span>Availability:</span>100 items</li>
-                                    <li><span>SKU:</span>327038</li>
-                                    <li><span>Product type:</span>Style, Sport Bike</li>
-                                    <li><span>Vendor:</span>Kiosk Motor</li>
-                                </ul>
-                            </div>
-                            <div class="ic-product-opt">
-                                <div class="ic-product-opt-title">Color:</div>
-                                <div class="ic-product-opt-col">
-                                    <ul class="ic-opts-list ic-opts-color">
-                                        <li>
-                                            <input type="radio" name="group1" checked="checked">
-                                            <div class="ic-product-color" style="background-color: #EE0102"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="group1">
-                                            <div class="ic-product-color" style="background-color: #636268"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="group1" >
-                                            <div class="ic-product-color" style="background-color: #696A6E"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="group1">
-                                            <div class="ic-product-color" style="background-color: #0000AA"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="group1">
-                                            <div class="ic-product-color" style="background-color: #3949D9"></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="ic-single-action-btns">
-                                <div class="ic-quantity">
-                                    <div class="ic-quantity-button ic-quantity-down"><i class="icofont-minus"></i></div>
-                                    <input type="number" min="1" step="1" value="1">
-                                    <div class="ic-quantity-button ic-quantity-up"><i class="icofont-plus"></i></div>
-                                </div>
-                                <a href="" class="ic-product-addcart ic-custom-btn-rvs ic-btn-sm">Add to cart</a>
-                                <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                    <i class="icofont-heart"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% endif %}
+        
     </div>
 </section>
 <!-- Product section end here-->
+
+
+<!-- Success Modal -->
+<div class="modal fade" id="ic-success-cart" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="container modal-content">
+            <div class="row ic-success-cart-content">
+                <div class="col-12">
+                    <h2 class="ic-success-message">Successfully Added To Cart</h2>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="ic-product-thumbnail">
+                        <img src="assets/images/product/success-cart.jpg" alt="bike-thumbnail">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="ic-product-content-inner">
+                        <div class="ic-product-item-dec">
+                            <ul>
+                                <li>300 CC</li>
+                                <li>Auto</li>
+                                <li>2019</li>
+                            </ul>
+                        </div>
+                        <h3 class="ic-product-item-title"><a href="shop-single.html">Honda CBR 300R 2019</a></h3>
+                        <h4 class="ic-product-item-price">$4,999</h4>
+                        <div class="ic-product-short-specification">
+                            <ul class="ic-specification-list">
+                                <li><span>Color:</span>Blue / Black Combination</li>
+                                <li><span>SKU:</span>327038</li>
+                                <li><span>Shipping Charge:</span>$200</li>
+                                <li class="ic-total-cost"><span>Total Cost:</span>$5,199</li>
+                            </ul>
+                        </div>
+                        <div class="ic-btn-group">
+                            <a href="cart.html" class="ic-btn ic-custom-btn-rvs">View Cart</a>
+                            <a href="checkout.html" class="ic-btn ic-custom-btn theme-color">Checkout</a>
+                            <a data-bs-dismiss="modal" class="ic-btn ic-modal-close"><i class="icofont-close"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Quickview Modal -->
+<div class="ic-modal" id="ic-quickview-modal"  style="display: none;">
+    <div class="ic-modal-dialog">
+        <div class="container ic-modal-content">
+            <div class="ic-modal-header">
+                <a data-bs-dismiss="modal" class="ic-btn ic-modal-close">
+                    <i class="icofont icofont-close"></i>
+                </a>
+            </div>
+            <div class="row ic-quickview-content">
+                <div class="col-lg-7 col-md-12 col-sm-12">
+                    <div class="ic-product-gallery">
+                        <div class="ic-product-gallery-single">
+                            <ul class="ic-product-single-carousel">
+                                <li>
+                                    <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
+                                        <a href="assets/images/product-single/02.jpg">
+                                            <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
+                                        <a href="assets/images/product-single/02.jpg">
+                                            <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
+                                        <a href="assets/images/product-single/02.jpg">
+                                            <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
+                                        <a href="assets/images/product-single/02.jpg">
+                                            <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
+                                        <a href="assets/images/product-single/02.jpg">
+                                            <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="ic-product-gallery-thumbs">
+                            <ul class="ic-product-thumbs-carousel slick-squared-arrow">
+                                <li>
+                                    <img src="assets/images/product-single/thumb-1.jpg" alt="product-thumb">
+                                </li>
+                                <li>
+                                    <img src="assets/images/product-single/thumb-2.jpg" alt="product-thumb">
+                                </li>
+                                <li>
+                                    <img src="assets/images/product-single/thumb-3.jpg" alt="product-thumb">
+                                </li>
+                                <li>
+                                    <img src="assets/images/product-single/thumb-4.jpg" alt="product-thumb">
+                                </li>
+                                <li>
+                                    <img src="assets/images/product-single/thumb-5.jpg" alt="product-thumb">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-12 col-sm-12">
+                    <div class="ic-product-single-content">
+                        <div class="ic-product-item-dec">
+                            <ul>
+                                <li>
+                                    {{ product.type | split: " " | slice: 0, 1 }} 
+                                    {{ product.type | split: " " | slice: 1, 1 }}
+                                </li>
+                                <li>{{ product.type | split: " " | slice: 2, 1 }}</li>
+                                <li>{{ product.type | split: " " | last }}</li>
+                            </ul>
+                        </div>
+                        <h3 class="ic-product-item-title"><a href="shop-single.html">{{ product.title }}</a></h3>
+                        <div class="ic-review-rating-wrapper">
+                            <div class="ic-review-rating">
+                                <ul>
+                                    <li class="active"><i class="icofont-star"></i></li>
+                                    <li class="active"><i class="icofont-star"></i></li>
+                                    <li class="active"><i class="icofont-star"></i></li>
+                                    <li class="active"><i class="icofont-star"></i></li>
+                                    <li><i class="icofont-star"></i></li>
+                                </ul>
+                            </div>
+                            <span>(55 Reviews)</span>
+                        </div>
+                        <h4 class="ic-product-item-price"><del>$3,988</del>$3,588</h4>
+                        <div class="ic-product-short-specification">
+                            <ul class="ic-specification-list">
+                                <li><span>Availability:</span>100 items</li>
+                                <li><span>SKU:</span>327038</li>
+                                <li><span>Product type:</span>Style, Sport Bike</li>
+                                <li><span>Vendor:</span>Kiosk Motor</li>
+                            </ul>
+                        </div>
+                        <div class="ic-product-opt">
+                            <div class="ic-product-opt-title">Color:</div>
+                            <div class="ic-product-opt-col">
+                                <ul class="ic-opts-list ic-opts-color">
+                                    <li>
+                                        <input type="radio" name="group1" checked="checked">
+                                        <div class="ic-product-color" style="background-color: #EE0102"></div>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="group1">
+                                        <div class="ic-product-color" style="background-color: #636268"></div>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="group1" >
+                                        <div class="ic-product-color" style="background-color: #696A6E"></div>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="group1">
+                                        <div class="ic-product-color" style="background-color: #0000AA"></div>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="group1">
+                                        <div class="ic-product-color" style="background-color: #3949D9"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="ic-single-action-btns">
+                            <div class="ic-quantity">
+                                <div class="ic-quantity-button ic-quantity-down"><i class="icofont-minus"></i></div>
+                                <input type="number" min="1" step="1" value="1">
+                                <div class="ic-quantity-button ic-quantity-up"><i class="icofont-plus"></i></div>
+                            </div>
+                            <a href="" class="ic-product-addcart ic-custom-btn-rvs ic-btn-sm">Add to cart</a>
+                            <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
+                                <i class="icofont-heart"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% schema %}
     {
         "name": "Home Product",
         "settings": [
-            
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            },
+            {
+                "type": "text",
+                "id": "heading_subtitle",
+                "label": "Heading Subtitle"
+            },
+            {
+                "type": "text",
+                "id": "button_title",
+                "label": "Button Title"
+            },
+            {
+                "type": "url",
+                "id": "button_url",
+                "label": "Button URL"
+            }
+        ],
+        "blocks": [
+            {
+                "name": "Tab Item",
+                "type": "tab-item",
+                "settings": [
+                    {
+                        "type": "collection",
+                        "id": "collection",
+                        "label": "Select collection"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Home Product"
+            }
         ]
     }
 {% endschema %}

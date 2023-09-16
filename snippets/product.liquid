@@ -1,0 +1,38 @@
+<div class="ic-product-item wow fadeInUp">
+    <div class="ic-product-thumbnail">
+        {% if product.featured_image %}
+            <a href="{{ product.url }}">
+                <img src="{{ product.featured_image | img_url: '1920x' }}" alt="bike-thumbnail">
+            </a>
+        {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'w-100' }}
+        {% endif %}
+
+    </div>
+    <div class="ic-product-content">
+        <div class="ic-product-item-action">
+            <a class="ic-product-addcart ic-custom-btn-rvs" title="Add To Cart" data-bs-toggle="modal" data-bs-target="#ic-success-cart">Add to cart</a>
+            <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
+                <i class="icofont icofont-heart"></i>
+            </a>
+            <a class="ic-product-quickview ic-modal-btn" title="Quick View" data-target="#ic-quickview-modal" data-product='{{ product | json }}'>
+                <i class="icofont icofont-search"></i>
+            </a>
+
+        </div>
+        <div class="ic-product-content-inner">
+            <div class="ic-product-item-dec">
+                <ul>
+                    <li>
+                        {{ product.type | split: " " | slice: 0, 1 }} 
+                        {{ product.type | split: " " | slice: 1, 1 }}
+                    </li>
+                    <li>{{ product.type | split: " " | slice: 2, 1 }}</li>
+                    <li>{{ product.type | split: " " | last }}</li>
+                </ul>
+            </div>
+            <h3 class="ic-product-item-title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+            <h4 class="ic-product-item-price">{{ product.price | money }}</h4>
+        </div>
+    </div>
+</div>
