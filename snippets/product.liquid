@@ -16,7 +16,7 @@
             <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
                 <i class="icofont icofont-heart"></i>
             </a>
-            <a href="#" class="ic-product-quickview ic-modal-btn" data-collection=' {{ collection | json }}' data-product='{{ product | json }}'>
+            <a href="javascript:void(0);" class="ic-product-quickview ic-modal-btn" data-bs-toggle="modal" data-bs-target="#ic-quickview-modal-{{ product.id }}">
                 <i class="icofont icofont-search"></i>
             </a>
 
@@ -24,13 +24,16 @@
         <div class="ic-product-content-inner">
             <div class="ic-product-item-dec">
                 <ul>
-                    
-                    <li>
-                        {{ product.tags[0] | split: " " | slice: 0, 1 }} 
-                        {{ product.tags[0] | split: " " | slice: 1, 1 }}
-                    </li>
-                    <li>{{ product.tags[0] | split: " " | slice: 2, 1 }}</li>
-                    <li>{{ product.tags[0] | split: " " | last }}</li>
+                    {% assign custom = product.metafields.custom %}
+                    {% if custom.product_cc != blank %}
+                        <li>{{ custom.product_cc }}</li>
+                    {% endif %}
+                    {% if custom.product_auto_manual != blank %}
+                        <li>{{ custom.product_auto_manual }}</li>
+                    {% endif %}
+                    {% if custom.product_year != blank %}
+                        <li>{{ custom.product_year }}</li>
+                    {% endif %}
                 </ul>
             </div>
             <h3 class="ic-product-item-title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
