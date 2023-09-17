@@ -1,16 +1,57 @@
 <!-- 404 section start here-->
-<section class="ic-error-section">
+<section class="ic-error-section" style="background-image: url({{ section.settings.error_bg_image | img_url: '1920x' }});">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-12">
                 <div class="ic-error-content">
-                    <img src="assets/images/404.png" alt="404-thumb">
-                    <h3>Sorry!</h3>
-                    <p>The Page You Are Looking For <br>Was Not Found</p>
-                    <a href="" onclick="window.history.go(-1); return false;" class="ic-custom-btn theme-color">Go Back</a>
+                    {% if section.settings.error_image != blank %}
+                        <img src="{{ section.settings.error_image | img_url: '1920x' }}" alt="404-thumb">
+                    {% endif %}
+                    {% if section.settings.error_title != blank %}
+                        <h3>{{ section.settings.error_title }}</h3>
+                    {% endif %}
+                    {% if section.settings.error_description != blank %}
+                        <p>{{ section.settings.error_description }}</p>
+                    {% endif %}
+                    {% if section.settings.error_button != blank %}
+                        <a href="{{ routes.root_url }}" class="ic-custom-btn theme-color">{{ section.settings.error_button }}</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </section>
 <!-- 404 section end here-->
+
+{% schema %}
+    {
+        "name": "404",
+        "settings": [
+            {
+                "type": "image_picker",
+                "id": "error_bg_image",
+                "label": "Error background image"
+            },
+            {
+                "type": "image_picker",
+                "id": "error_image",
+                "label": "Error image"
+            },
+            {
+                "type": "text",
+                "id": "error_title",
+                "label": "Error title"
+            },
+            {
+                "type": "text",
+                "id": "error_description",
+                "label": "Error description"
+            },
+            {
+                "type": "text",
+                "id": "error_button",
+                "label": "Error button"
+            }
+        ]
+    }
+{% endschema %}

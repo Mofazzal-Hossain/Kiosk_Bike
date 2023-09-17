@@ -147,15 +147,15 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
         if (element.hasClass('open')) {
             element.removeClass('open');
             element.find('li').removeClass('open');
-            element.find('ul').slideUp(500,"swing");
+            element.find('.ic-dropdown').slideUp(500,"swing");
         }
         else {
             element.addClass('open');
-            element.children('ul').slideDown(500,"swing");
-            element.siblings('li').children('ul').slideUp(500,"swing");
+            element.children('.ic-dropdown').slideDown(500,"swing");
+            element.siblings('li').children('.ic-dropdown').slideUp(500,"swing");
             element.siblings('li').removeClass('open');
             element.siblings('li').find('li').removeClass('open');
-            element.siblings('li').find('ul').slideUp(500,"swing");
+            element.siblings('li').find('.ic-dropdown').slideUp(500,"swing");
         }
         if(element.hasClass('ic-has-dropdown')) {
             e.preventDefault();
@@ -256,21 +256,62 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
 
     
     const quickViewButtons = document.querySelectorAll('.ic-product-quickview');
+    const quickViewModal = document.getElementById('ic-quickview-modal');
+    const closeButton = document.querySelectorAll('.ic-modal-close');
+    const body = document.querySelector('body');
 
     quickViewButtons.forEach((button) => {
         button.addEventListener('click', function (e) {
             e.preventDefault();
             const productData = JSON.parse($(this).attr('data-product'));
             populateQuickViewModal(productData);
+     
+            quickViewModal.classList.add('ic-modal-show');
+            body.classList.add('ic-modal-open');
+
         });
     });
 
+    // quick view modal product json update
     function populateQuickViewModal(productData) {
         console.log(productData);
-        const quickViewModal = document.getElementById('ic-quickview-modal');
-        quickViewModal.style.display = 'block'; 
+        const productEleTitle = document.getElementById('modal-product-title');
+        const productTypeList = document.getElementById('modal-product-type');
+        const productStatusEle = document.getElementById('ic-specification-list');
+
+        // product title
+        const anchorHTML = `<a href="/product/${productData.handle}">${productData.title}</a>`;
+        productEleTitle.innerHTML = anchorHTML;
+        
+        // product type
+        const typeParts = productData.tags[0].split(" ");
+        productTypeList.innerHTML = '';
+        typeParts.forEach(typePart => {
+            const liEle = document.createElement('li');
+            liEle.textContent = typePart; 
+            productTypeList.appendChild(liEle);
+        });
+        
+        // product status
+
+        const  availability=`<li><span>Availability:</span>100 items</li>`;
+        const sku=`<li><span>SKU:</span>${productData.sku}</li>`;
+        const productCollection =`<li><span>Product type:</span>${productData.type}</li>`;
+        const vendor=`<li><span>Vendor:</span>${productData.vendor}</li>`;
+        productStatusEle.innerHTML = availability + sku + productCollection + vendor;
+
     }
 
+    $(document).on("click", '.ic-modal-close', function () {
+        $('.ic-modal').removeClass('ic-modal-show');
+        $('body').removeClass('ic-modal-open');
+    });
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest(".ic-modal-content,.ic-modal-btn").length) {
+            $("body").removeClass("ic-modal-open");
+            $(".ic-modal").removeClass("ic-modal-show");
+        }
+    });
 
 
 

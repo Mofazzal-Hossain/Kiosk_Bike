@@ -6,7 +6,7 @@
             {% case block.type %}
                 {% when 'home-banner-slide' %}
                     <!-- Banner slider item -->
-                    <div class="ic-banner-slider-item slider-item-1 ic-slider-animated-1" style="background-image: url({{ block.settings.slide_bg_image | img_url: '1920x' }});">
+                    <div class="ic-banner-slider-item slider-item-{{ forloop.index }} ic-slider-animated-{{ forloop.index }}" style="background-image: url({{ block.settings.slide_bg_image | img_url: '1920x' }});">
                         <div class="ic-banner-content">
                             <div class="container">
                                 <div class="row">

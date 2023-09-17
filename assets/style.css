@@ -2930,11 +2930,14 @@ header.ic-header {
   border-radius: 3rem; }
 #ic-quickview-modal .ic-product-item-dec ul {
   list-style: none;
-  line-height: 2rem; }
+  line-height: 2rem; 
+  display: flex;
+  gap:16px;
+}
   #ic-quickview-modal .ic-product-item-dec ul li {
     display: inline-block;
     color: #D23B3B;
-    margin: 0 .5rem;
+    margin: 0 ;
     position: relative;
     line-height: 2.2rem;
     text-transform: uppercase; }

@@ -133,157 +133,110 @@
         </div>
     </div>
 </div>
+
 <!-- Quickview Modal -->
-<div class="ic-modal" id="ic-quickview-modal"  style="display: none;">
-    <div class="ic-modal-dialog">
-        <div class="container ic-modal-content">
-            <div class="ic-modal-header">
-                <a data-bs-dismiss="modal" class="ic-btn ic-modal-close">
-                    <i class="icofont icofont-close"></i>
-                </a>
-            </div>
-            <div class="row ic-quickview-content">
-                <div class="col-lg-7 col-md-12 col-sm-12">
-                    <div class="ic-product-gallery">
-                        <div class="ic-product-gallery-single">
-                            <ul class="ic-product-single-carousel">
-                                <li>
-                                    <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
-                                        <a href="assets/images/product-single/02.jpg">
-                                            <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
-                                        <a href="assets/images/product-single/02.jpg">
-                                            <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
-                                        <a href="assets/images/product-single/02.jpg">
-                                            <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
-                                        <a href="assets/images/product-single/02.jpg">
-                                            <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
-                                        <a href="assets/images/product-single/02.jpg">
-                                            <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="ic-product-gallery-thumbs">
-                            <ul class="ic-product-thumbs-carousel slick-squared-arrow">
-                                <li>
-                                    <img src="assets/images/product-single/thumb-1.jpg" alt="product-thumb">
-                                </li>
-                                <li>
-                                    <img src="assets/images/product-single/thumb-2.jpg" alt="product-thumb">
-                                </li>
-                                <li>
-                                    <img src="assets/images/product-single/thumb-3.jpg" alt="product-thumb">
-                                </li>
-                                <li>
-                                    <img src="assets/images/product-single/thumb-4.jpg" alt="product-thumb">
-                                </li>
-                                <li>
-                                    <img src="assets/images/product-single/thumb-5.jpg" alt="product-thumb">
-                                </li>
-                            </ul>
+{% for product in collections.all.products %}
+    <div class="ic-modal" id="ic-quickview-modal">
+        <div class="ic-modal-dialog">
+            <div class="container ic-modal-content">
+                <div class="ic-modal-header">
+                    <a data-bs-dismiss="modal" class="ic-btn ic-modal-close">
+                        <i class="icofont icofont-close"></i>
+                    </a>
+                </div>
+                <div class="row ic-quickview-content">
+                    <div class="col-lg-7 col-md-12 col-sm-12">
+                    
+                        <div class="ic-product-gallery">
+                            <div class="ic-product-gallery-single">
+                                <ul class="ic-product-single-carousel">
+                                    <li>
+                                        <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
+                                            <a href="assets/images/product-single/02.jpg">
+                                                <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="ic-product-gallery-thumbs">
+                                <ul class="ic-product-thumbs-carousel slick-squared-arrow">
+                                    <li>
+                                        <img src="assets/images/product-single/thumb-1.jpg" alt="product-thumb">
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-5 col-md-12 col-sm-12">
-                    <div class="ic-product-single-content">
-                        <div class="ic-product-item-dec">
-                            <ul>
-                                <li>
-                                    {{ product.type | split: " " | slice: 0, 1 }} 
-                                    {{ product.type | split: " " | slice: 1, 1 }}
-                                </li>
-                                <li>{{ product.type | split: " " | slice: 2, 1 }}</li>
-                                <li>{{ product.type | split: " " | last }}</li>
-                            </ul>
-                        </div>
-                        <h3 class="ic-product-item-title"><a href="shop-single.html">{{ product.title }}</a></h3>
-                        <div class="ic-review-rating-wrapper">
-                            <div class="ic-review-rating">
-                                <ul>
-                                    <li class="active"><i class="icofont-star"></i></li>
-                                    <li class="active"><i class="icofont-star"></i></li>
-                                    <li class="active"><i class="icofont-star"></i></li>
-                                    <li class="active"><i class="icofont-star"></i></li>
-                                    <li><i class="icofont-star"></i></li>
+                    <div class="col-lg-5 col-md-12 col-sm-12">
+                        <div class="ic-product-single-content">
+                            <div class="ic-product-item-dec">
+                                <ul id="modal-product-type"></ul>
+                            </div>
+                            <h3 class="ic-product-item-title" id="modal-product-title"></h3>
+                            <div class="ic-review-rating-wrapper">
+                                <div class="ic-review-rating">
+                                    <ul>
+                                        <li class="active"><i class="icofont icofont-star"></i></li>
+                                        <li class="active"><i class="icofont icofont-star"></i></li>
+                                        <li class="active"><i class="icofont icofont-star"></i></li>
+                                        <li class="active"><i class="icofont icofont-star"></i></li>
+                                        <li><i class="icofont icofont-star"></i></li>
+                                    </ul>
+                                </div>
+                                <span>(55 Reviews)</span>
+                            </div>
+                        
+                            <h4 class="ic-product-item-price"><del>$3,988</del>$3,588</h4>
+                            <div class="ic-product-short-specification">
+                                <ul class="ic-specification-list" id="ic-specification-list">
                                 </ul>
                             </div>
-                            <span>(55 Reviews)</span>
-                        </div>
-                        <h4 class="ic-product-item-price"><del>$3,988</del>$3,588</h4>
-                        <div class="ic-product-short-specification">
-                            <ul class="ic-specification-list">
-                                <li><span>Availability:</span>100 items</li>
-                                <li><span>SKU:</span>327038</li>
-                                <li><span>Product type:</span>Style, Sport Bike</li>
-                                <li><span>Vendor:</span>Kiosk Motor</li>
-                            </ul>
-                        </div>
-                        <div class="ic-product-opt">
-                            <div class="ic-product-opt-title">Color:</div>
-                            <div class="ic-product-opt-col">
-                                <ul class="ic-opts-list ic-opts-color">
-                                    <li>
-                                        <input type="radio" name="group1" checked="checked">
-                                        <div class="ic-product-color" style="background-color: #EE0102"></div>
-                                    </li>
-                                    <li>
-                                        <input type="radio" name="group1">
-                                        <div class="ic-product-color" style="background-color: #636268"></div>
-                                    </li>
-                                    <li>
-                                        <input type="radio" name="group1" >
-                                        <div class="ic-product-color" style="background-color: #696A6E"></div>
-                                    </li>
-                                    <li>
-                                        <input type="radio" name="group1">
-                                        <div class="ic-product-color" style="background-color: #0000AA"></div>
-                                    </li>
-                                    <li>
-                                        <input type="radio" name="group1">
-                                        <div class="ic-product-color" style="background-color: #3949D9"></div>
-                                    </li>
-                                </ul>
+                            <div class="ic-product-opt">
+                                <div class="ic-product-opt-title">Color:</div>
+                                <div class="ic-product-opt-col">
+                                    <ul class="ic-opts-list ic-opts-color">
+                                        <li>
+                                            <input type="radio" name="group1" checked="checked">
+                                            <div class="ic-product-color" style="background-color: #EE0102"></div>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="group1">
+                                            <div class="ic-product-color" style="background-color: #636268"></div>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="group1" >
+                                            <div class="ic-product-color" style="background-color: #696A6E"></div>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="group1">
+                                            <div class="ic-product-color" style="background-color: #0000AA"></div>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="group1">
+                                            <div class="ic-product-color" style="background-color: #3949D9"></div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <div class="ic-single-action-btns">
-                            <div class="ic-quantity">
-                                <div class="ic-quantity-button ic-quantity-down"><i class="icofont-minus"></i></div>
-                                <input type="number" min="1" step="1" value="1">
-                                <div class="ic-quantity-button ic-quantity-up"><i class="icofont-plus"></i></div>
+                            <div class="ic-single-action-btns">
+                                <div class="ic-quantity">
+                                    <div class="ic-quantity-button ic-quantity-down"><i class="icofont icofont-minus"></i></div>
+                                    <input type="number" min="1" step="1" value="1">
+                                    <div class="ic-quantity-button ic-quantity-up"><i class="icofont icofont-plus"></i></div>
+                                </div>
+                                <a href="" class="ic-product-addcart ic-custom-btn-rvs ic-btn-sm">Add to cart</a>
+                                <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
+                                    <i class="icofont icofont-heart"></i>
+                                </a>
                             </div>
-                            <a href="" class="ic-product-addcart ic-custom-btn-rvs ic-btn-sm">Add to cart</a>
-                            <a class="ic-product-wishlist" title="Wishlist" href="wishlist.html">
-                                <i class="icofont-heart"></i>
-                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
+{% endfor %}
 {% schema %}
     {
         "name": "Home Product",

@@ -47,17 +47,17 @@
                 <ul class="ic-header-top-links">
                   <li>
                     <div class="ic-multi-curency">
-                        <div class="ic-select-dropdown">
-                            <div class="ic-select-inner">
-                                <span> {{ shop.money_format | split: '' | first }} {{ shop.currency }}</span>
-                                <i class="fa fa-angle-down"></i>
-                            </div>
-                            <ul class="ic-select-dropdown-menu">
-                                {% for currency in shop.enabled_currencies %}
-                                    <li id="ic-{{ currency.code | handleize }}"> {{ currency.symbol }} {{ currency.iso_code}}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                      <div class="ic-select-dropdown">
+                          <div class="ic-select-inner">
+                              <span> {{ shop.money_format | split: '' | first }} {{ shop.currency }}</span>
+                              <i class="fa fa-angle-down"></i>
+                          </div>
+                          <ul class="ic-select-dropdown-menu">
+                              {% for currency in shop.enabled_currencies %}
+                                  <li id="ic-{{ currency.code | handleize }}"> {{ currency.symbol }} {{ currency.iso_code}}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
                     </div>
                   </li>
                   <!-- Header Account -->
@@ -222,62 +222,61 @@
                 <div class="ic-menu-area">
                   <div class="ic-main-menu-area">
                     <ul class="ic-main-menu d-flex">
-                        {% for link in block.settings.header_menu.links %}
-                            {% if link.title == block.settings.mega_menu %}
-                                <li class="ic-menu-item ic-has-dropdown ic-has-mega-menu">
-                                    <a href="{{ link.url }}">{{ link.title }}</a>
-                                    <div class="ic-mega-menu">
-                                        <div class="container">
-                                            <div class="row">
-                                                {% if block.settings.category_menu_check != false %}
-                                                    <div class="col-lg-2">
-                                                        <div class="nav flex-column">
-                                                        {% for item in collections %}
-                                                            <a href="{{ item.url }}" class="ic-mega-item ic-has-child {% if forloop.index == 1 %}active{% endif %}">{{ item.title }}</a>
-                                                        {% endfor %}
-                                                        </div>
+                      {% for link in block.settings.header_menu.links %}
+                        {% if link.title == block.settings.mega_menu %}
+                            <li class="ic-menu-item ic-has-dropdown ic-has-mega-menu">
+                                <a href="{{ link.url }}">{{ link.title }}</a>
+                                <div class="ic-mega-menu">
+                                    <div class="container">
+                                        <div class="row">
+                                            {% if block.settings.category_menu_check != false %}
+                                                <div class="col-lg-2">
+                                                    <div class="nav flex-column">
+                                                    {% for item in collections %}
+                                                        <a href="{{ item.url }}" class="ic-mega-item ic-has-child {% if forloop.index == 1 %}active{% endif %}">{{ item.title }}</a>
+                                                    {% endfor %}
                                                     </div>
-                                                {% endif %}
-                                                {% if block.settings.brand_item_check != false %}
-                                                    <div class="col-lg-3 col-lg-offset-2">
-                                                        <div class="nav flex-column">
-                                                            {% for product in collections.all.products %}
-                                                                {% for tag in product.tags %}
-                                                                    <a href="{{ brand.url }}" class="ic-mega-child-item active">{{ tag }}</a>
-                                                                {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                            {% if block.settings.brand_item_check != false %}
+                                                <div class="col-lg-3 col-lg-offset-2">
+                                                    <div class="nav flex-column">
+                                                        {% for product in collections.all.products %}
+                                                            {% for tag in product.metafields.custom.brand %}
+                                                                <a href="{{ brand.url }}" class="ic-mega-child-item active">{{ tag }}</a>
                                                             {% endfor %}
-                                                        </div>
+                                                        {% endfor %}
                                                     </div>
-                                                {% endif %}
-                                                {% if block.settings.menu_image_check != false %}
-                                                    <div class="col-lg-6">
-                                                        <div class="ic-menu-product-thumb">
-                                                            <img src="{{ block.settings.mega_menu_image | img_url: '1920x' }}" alt="{{ block.settings.mega_menu_image.alt }}">
-                                                        </div>
+                                                </div>
+                                            {% endif %}
+                                            {% if block.settings.menu_image_check != false %}
+                                                <div class="col-lg-6">
+                                                    <div class="ic-menu-product-thumb">
+                                                        <img src="{{ block.settings.mega_menu_image | img_url: '1920x' }}" alt="{{ block.settings.mega_menu_image.alt }}">
                                                     </div>
-                                                {% endif %}
-                                            </div>
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </div>
-                                </li>
-                                {% elsif link.links != blank and link.title != block.settings.mega_menu %}
-                                    <li class="ic-menu-item ic-has-dropdown">
-                                        <a href="{{ link.url }}">{{ link.title }}</a>
-                                        <ul class="ic-dropdown">
-                                            {%- for childlink in link.links -%}
-                                                <li>
-                                                <a href="{{ childlink.url}}">{{ childlink.title }}</a>
-                                                </li>
-                                            {%- endfor -%}
-                                        </ul>
-                                    </li>
-                                {% else %}
-                                    <li class="ic-menu-item {%  if forloop.index == 1 %} active{% endif %}">
-                                        <a href="{{link.url}}">{{ link.title }}</a>
-                                    </li>
-                            {% endif %}
-                        
-                        {% endfor %}
+                                </div>
+                            </li>
+                            {% elsif link.links != blank and link.title != block.settings.mega_menu %}
+                              <li class="ic-menu-item ic-has-dropdown">
+                                  <a href="{{ link.url }}">{{ link.title }}</a>
+                                  <ul class="ic-dropdown">
+                                      {%- for childlink in link.links -%}
+                                          <li>
+                                          <a href="{{ childlink.url}}">{{ childlink.title }}</a>
+                                          </li>
+                                      {%- endfor -%}
+                                  </ul>
+                              </li>
+                            {% else %}
+                              <li class="ic-menu-item {%  if forloop.index == 1 %} active{% endif %}">
+                                  <a href="{{link.url}}">{{ link.title }}</a>
+                              </li>
+                        {% endif %}
+                      {% endfor %}
                     </ul>
                   </div>
                 </div>
@@ -298,7 +297,7 @@
       <div class="ic-mobile-menu-main">
         <div class="ic-mobile-menu">
           <div class="ic-nav-close" title="Close">
-            <i class="icofont-close"></i>
+            <i class="icofont icofont-close"></i>
           </div>
           <div class="ic-mobile-menu-card">
             {% if settings.logo != blank %}
@@ -315,98 +314,61 @@
             {% endif %}
             <div class="ic-mobile-menu-body">
               <ul class="ic-mobile-menu-list d-flex flex-column">
-                <li class="ic-menu-item active">
-                  <a href="{{shop.url}}">Home</a>
-                </li>
-                <li class="ic-menu-item ic-has-dropdown ic-has-mega-menu">
-                  <a href="shop.html">Bike</a>
-                  <ul class="ic-dropdown">
-                    <li>
-                      <a href="">Kawasaki</a>
-                    </li>
-                    <li>
-                      <a href="">Bmw</a>
-                    </li>
-                    <li>
-                      <a href="">Yamaha</a>
-                    </li>
-                    <li>
-                      <a href="">Honda</a>
-                    </li>
-                    <li>
-                      <a href="">Ducati</a>
-                    </li>
-                    <li>
-                      <a href="">Harley davidson</a>
-                    </li>
-                    <li>
-                      <a href="">KTM</a>
-                    </li>
-                    <li>
-                      <a href="">Suzuki</a>
-                    </li>
-                    <li>
-                      <a href="">Aprilia</a>
-                    </li>
-                    <li>
-                      <a href="">Triumph</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="ic-menu-item ic-has-dropdown">
-                  <a href="#">Shop</a>
-                  <ul class="ic-dropdown">
-                    <li>
-                      <a href="shop.html">Shop Page</a>
-                    </li>
-                    <li>
-                      <a href="shop-left-sidebar.html">Shop Left Sidebar</a>
-                    </li>
-                    <li>
-                      <a href="shop-right-sidebar.html">Shop Right Sidebar</a>
-                    </li>
-                    <li>
-                      <a href="shop-single.html">Shop Single</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="ic-menu-item ic-has-dropdown">
-                  <a href="#">Page</a>
-                  <ul class="ic-dropdown">
-                    <li>
-                      <a href="404.html">404 Page</a>
-                    </li>
-                    <li>
-                      <a href="cart.html">Cart Page</a>
-                    </li>
-                    <li>
-                      <a href="wishlist.html">Wishlist Page</a>
-                    </li>
-                    <li>
-                      <a href="checkout.html">Checkout Page</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="ic-menu-item ic-has-dropdown">
-                  <a href="#">blog</a>
-                  <ul class="ic-dropdown">
-                    <li>
-                      <a href="blog-1.html">Blog Two Column</a>
-                    </li>
-                    <li>
-                      <a href="blog-2.html">Blog One Column</a>
-                    </li>
-                    <li>
-                      <a href="single.html">Blog Single</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="ic-menu-item">
-                  <a href="about.html">About</a>
-                </li>
-                <li class="ic-menu-item">
-                  <a href="contact.html">contact</a>
-                </li>
+                {% for link in block.settings.header_menu.links %}
+                  {% if link.title == block.settings.mega_menu %}
+                      <li class="ic-menu-item ic-has-dropdown ic-has-mega-menu">
+                          <a href="{{ link.url }}">{{ link.title }}</a>
+                          <div class="ic-mega-menu ic-dropdown">
+                              <div class="container">
+                                  <div class="row">
+                                      {% if block.settings.category_menu_check != false %}
+                                          <div class="col-lg-2">
+                                              <div class="nav flex-column">
+                                                {% for item in collections %}
+                                                  <a href="{{ item.url }}" class="ic-mega-item ic-has-child {% if forloop.index == 1 %}active{% endif %}">{{ item.title }}</a>
+                                                {% endfor %}
+                                              </div>
+                                          </div>
+                                      {% endif %}
+                                      {% if block.settings.brand_item_check != false %}
+                                          <div class="col-lg-3 col-lg-offset-2 my-3">
+                                              <div class="nav flex-column">
+                                                  {% for product in collections.all.products %}
+                                                      {% for tag in product.tags %}
+                                                          <a href="{{ brand.url }}" class="ic-mega-child-item active">{{ tag }}</a>
+                                                      {% endfor %}
+                                                  {% endfor %}
+                                              </div>
+                                          </div>
+                                      {% endif %}
+                                      {% if block.settings.menu_image_check != false %}
+                                          <div class="col-lg-6">
+                                              <div class="ic-menu-product-thumb">
+                                                  <img src="{{ block.settings.mega_menu_image | img_url: '1920x' }}" alt="{{ block.settings.mega_menu_image.alt }}">
+                                              </div>
+                                          </div>
+                                      {% endif %}
+                                  </div>
+                              </div>
+                          </div>
+                      </li>
+                      {% elsif link.links != blank and link.title != block.settings.mega_menu %}
+                        <li class="ic-menu-item ic-has-dropdown">
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                            <ul class="ic-dropdown">
+                                {%- for childlink in link.links -%}
+                                    <li>
+                                    <a href="{{ childlink.url}}">{{ childlink.title }}</a>
+                                    </li>
+                                {%- endfor -%}
+                            </ul>
+                        </li>
+                      {% else %}
+                        <li class="ic-menu-item {%  if forloop.index == 1 %} active{% endif %}">
+                            <a href="{{link.url}}">{{ link.title }}</a>
+                        </li>
+                  {% endif %}
+                {% endfor %}
               </ul>
             </div>
           </div>
