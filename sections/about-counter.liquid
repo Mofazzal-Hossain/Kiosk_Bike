@@ -1,0 +1,120 @@
+<!-- Counter section start here -->
+<section class="ic-counter-section ic-video-section ic-section-bg ic-padding-120">
+    <div class="container">
+        <div class="row">
+            <!-- Counter item -->
+            {% for block in section.blocks %}
+                {% case block.type %}
+                    {% when 'counter_item' %}
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="ic-counter-item wow fadeInUp" data-wow-delay="0.2s">
+                                {% if block.settings.counter_image != blank %}
+                                    <img src="{{ block.settings.counter_image | img_url: "1920x" }}" alt="counter-icon">
+                                {% else %}
+                                    {{ 'lifestyle-1' | placeholder_svg_tag: "w-100 h-100"}}
+                                {% endif %}
+                                {% if block.settings.counter_number != blank %}
+                                    <div class="counter-wrap d-flex align-items-center justify-content-center">
+                                        <div class="counter">{{ block.settings.counter_number }} </div>
+                                        {% if block.settings.counter_number_prefix != blank %}
+                                            <span>{{ block.settings.counter_number_prefix }}</span>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                {% if block.settings.counter_title != blank %}
+                                    <p>{{ block.settings.counter_title }}</p>
+                                {% endif %}
+                                {% if block.settings.counter_content != blank %}
+                                    <p>{{ block.settings.counter_content }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        
+                {% endcase %}
+            {% endfor %}
+         
+        </div>
+
+        <!-- Video Section start here -->
+        <div class="ic-video">
+            {% if section.settings.video_image !=blank %}
+                <img src="{{ section.settings.video_image | img_url: "1920x" }}" class="w-100" alt="video-thumb">
+            {% else %}
+                {{ 'lifestyle-1' | placeholder_svg_tag: "w-100 h-100"}}
+            {% endif %}
+            <div class="ic-video-content">
+                {% if section.settings.video_title != blank %}
+                    <h2>{{ section.settings.video_title }}</h2>
+                {% endif %}
+                <a data-rel="lightcase:myCollection" href="{{ section.settings.video_url }}" title="Watch Video"><i class="icofont icofont-play-alt-2"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Counter section end here -->
+
+{% schema %}
+    {
+        "name": "About Counter",
+        "blocks": [
+            {
+                "name": "Counter Item",
+                "type": "counter_item",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "counter_image",
+                        "label": "Counter Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "counter_number",
+                        "label": "Counter Number"
+                    },
+                    {
+                        "type": "text",
+                        "id": "counter_number_prefix",
+                        "label": "Counter Number Prefix"
+                    },
+                    {
+                        "type": "text",
+                        "id": "counter_title",
+                        "label": "Counter Title"
+                    },
+                    {
+                        "type": "text",
+                        "id": "counter_content",
+                        "label": "Counter Content"
+                    }
+                ]
+            }
+        ],
+        "settings": [
+            {
+                "type": "image_picker",
+                "id": "video_image",
+                "label": "Video Image"
+            },
+            {
+                "type": "text",
+                "id": "video_title",
+                "label": "Video Title"
+            },
+            {
+                "type": "video_url",
+                "id": "video_url",
+                "label": "Video URL",
+                "accept": [
+                    "youtube",
+                    "vimeo"
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Counter"
+            }
+        ]
+    }
+{% endschema %}

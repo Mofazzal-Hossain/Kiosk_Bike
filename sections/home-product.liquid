@@ -150,20 +150,36 @@
                         <div class="ic-product-gallery">
                             <div class="ic-product-gallery-single">
                                 <ul class="ic-product-single-carousel">
-                                    <li>
-                                        <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
-                                            <a href="assets/images/product-single/02.jpg">
-                                                <img src="assets/images/product/quick-view.jpg" alt="product-thumb" class="product-img">
-                                            </a>
-                                        </div>
-                                    </li>
+                                    {% if product.images != blank %}
+                                        {% for image in product.images %}
+                                            <li>
+                                                <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
+                                                    <a href="{{ image | img_url: '1920x' }}">
+                                                        <img src="{{ image | img_url: '1920x' }}" alt="product-thumb" class="product-img">
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    {% else %}
+                                        <li>
+                                            <div class="ic-product-thumbnail easyzoom easyzoom--overlay">
+                                                <a href="{{ product.featured_image | img_url: '1920x' }}">
+                                                    <img src="{{ product.featured_image | img_url: '1920x' }}" alt="product-thumb" class="product-img">
+                                                </a>
+                                            </div>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </div>
                             <div class="ic-product-gallery-thumbs">
                                 <ul class="ic-product-thumbs-carousel slick-squared-arrow">
-                                    <li>
-                                        <img src="assets/images/product-single/thumb-1.jpg" alt="product-thumb">
-                                    </li>
+                                    {% if product.images != blank %}
+                                        {% for image in product.images %}
+                                            <li>
+                                                <img src="{{ image | img_url: '1920x' }}" alt="product-thumb">
+                                            </li>
+                                        {% endfor %}
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -184,7 +200,7 @@
                                     {% endif %}
                                 </ul>
                             </div>
-                            <h3 class="ic-product-item-title">{{ product.title }}</h3>
+                            <h3 class="ic-product-item-title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
                             <div class="ic-review-rating-wrapper">
                                 <div class="ic-review-rating">
                                     <ul>
@@ -198,14 +214,29 @@
                                 <span>(55 Reviews)</span>
                             </div>
                         
-                            <h4 class="ic-product-item-price"><del>$3,988</del>$3,588</h4>
+                            {% if product.compare_at_price > product.price %}
+                                <h4 class="ic-product-item-price">
+                                    <del>{{ product.compare_at_price | money }}</del> {{ product.price | money }}
+                                </h4>
+                            {% else %}
+                                <h4 class="ic-product-item-price">{{ product.price | money }}</h4>
+                            {% endif %}
                             <div class="ic-product-short-specification">
                                 <ul class="ic-specification-list">
-                                    {% assign currentSku = product.has_only_default_variant %}
-                                    <li><span>Availability:</span>100 items</li>
-                                    <li><span>SKU:</span>{{ currentSku.sku }}</li>
-                                    <li><span>Product type:</span> {{ product.type }}</li>
-                                    <li><span>Vendor:</span>{{ product.vendor }}</li>
+                                    {% for variant in product.variants %}
+                                        {% if product.available %}
+                                            <li><span>Availability:</span>{{ variant.inventory_quantity }} items</li>
+                                        {% endif %}
+                                        {% if variant.sku %}
+                                            <li><span>SKU:</span>{{ variant.sku }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if product.type != blank %}
+                                        <li><span>Product type:</span>{{ product.type }}</li>
+                                    {% endif %}
+                                    {% if product.vendor != blank %}
+                                        <li><span>Vendor:</span>{{ product.vendor }}</li>
+                                    {% endif %}
                                 </ul>
                             </div>
                             <div class="ic-product-opt">

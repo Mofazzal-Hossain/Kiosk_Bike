@@ -1,0 +1,37 @@
+<!-- Breadcrumb section start here -->
+<section class="ic-breadcrumb style-three">
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-lg-12">
+            <h3 class="ic-breadcrumb-title">{{ page_title }}</h3>
+            <ul>
+                <li><a href="{{ routes.root_url }}">Home</a></li>
+                {% if section.settings.custom_page_title != blank %}
+                    <li> {{ section.settings.custom_page_title }} </li>
+                {% else %}
+                    <li>{{ page_title }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+</section>
+<!-- Breadcrumb section end here -->
+
+{% schema %}
+    {
+        "name": "Breadcrumb",
+        "settings": [
+            {
+                "type": "text",
+                "id": "custom_page_title",
+                "label": "Custom Page Title"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Breadcrumb"
+            }
+        ]
+    }
+{% endschema %}

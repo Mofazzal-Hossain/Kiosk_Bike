@@ -18,7 +18,6 @@
                             <button class="ic-submit" type="submit"><i class="icofont icofont-paper-plane"></i></button>
                         </div>
                     {% endform %}
-                 
                 </div>
             </div>
         </div>
@@ -30,11 +29,13 @@
 {% schema %}
    {
     "name": "Newsletter",
+    "class": "newsletter",
     "settings": [
       {
         "type": "text",
         "id": "newsletter_title",
-        "label": "Newsletter Title"
+        "label": "Newsletter Title",
+        "default": "Never Miss Our Latest Updates"
       },
       {
         "type": "image_picker",

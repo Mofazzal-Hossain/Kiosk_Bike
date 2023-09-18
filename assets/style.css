@@ -3644,6 +3644,7 @@ header.ic-header .ic-header-minicart .ic-minicart .ic-custom-btn-rvs {
   font-size: 2.4rem;
   line-height: 3rem;
   margin-bottom: 3rem;
+  margin-top: 10px;
 }
 .ic-modal .ic-product-short-specification {
   margin-bottom: 3rem;
@@ -5687,6 +5688,8 @@ p.form-message.success {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
+  align-items: center;
+  line-height: initial;
 }
 .ic-review-rating-wrapper .ic-review-rating {
   margin-right: 2rem;
@@ -5702,6 +5705,12 @@ p.form-message.success {
 }
 .ic-product-gallery-thumbs .slick-slide img {
   width: 100%;
+}
+.ic-review-rating-wrapper ul{
+  line-height: initial;
+}
+.ic-review-rating-wrapper ul span{
+  line-height: inherit;
 }
 
 @media only screen and (max-width: 991.98px) {
@@ -6586,11 +6595,11 @@ p.form-message.success {
 }
 
 /*------- * Footer style two -------*/
-.ic-footer.style-two .ic-footer-top {
+.footer-main-wrapper .ic-footer-top {
   padding-top: 24rem;
 }
 @media only screen and (max-width: 991.98px) {
-  .ic-footer.style-two .ic-footer-top {
+  .footer-main-wrapper .ic-footer-top {
     padding-top: 17rem;
   }
 }
@@ -6666,4 +6675,16 @@ p.form-message.success {
   color: #fff;
 }
 
-/*# sourceMappingURL=style.css.map */
+.ic-quickview-content .ic-product-thumbnail img{
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+}
+#lightcase-nav .lightcase-icon-close:before {
+  content: '\eede';
+  font-family: 'icofont';
+}
+.lightcase-icon-spin:before{
+  content: '\eff9'!important;
+  font-family: 'icofont'!important;
+}

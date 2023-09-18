@@ -573,3 +573,14 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
 
 })(jQuery);
 
+document.addEventListener("DOMContentLoaded", function(){
+    const footerSection = document.getElementById('shopify-section-footer');
+    const newsletter = document.getElementsByClassName('newsletter');
+
+    if(newsletter.length > 0){
+        footerSection.classList.add('footer-main-wrapper');
+    }else{
+        footerSection.classList.remove('footer-main-wrapper');
+    }
+})
+

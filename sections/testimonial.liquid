@@ -1,0 +1,86 @@
+<!-- Testimonial section start here-->
+{% assign hasTestimonials = false %}
+
+{% for block in section.blocks %}
+    {% if block.type == 'testimonial-slider' %}
+        {% assign hasTestimonials = true %}
+    {% endif %}
+{% endfor %}
+
+{% if hasTestimonials %}
+<section class="ic-testimonial-section ic-padding-120">
+    <div class="container">
+        <div class="ic-testimonial-slider-wrapper">
+            <div class="ic-testimonial-slider owl-carousel">
+                {% for block in section.blocks %}
+                    {% case block.type %}
+                        {% when 'testimonial-slider' %}
+                            <!-- Testimonial item -->
+                            <div class="ic-testimonial-slider-item">
+                                {% if block.settings.client_image != blank %}
+                                    <img src="{{ block.settings.client_image | img_url }}" class="animated w-auto" alt="client-image">
+                                {% endif %}
+                                {% if block.settings.client_comment != blank %}
+                                    <p>{{ block.settings.client_comment }}</p>
+                                {% endif %}
+                                {% if block.settings.client_name != blank %}
+                                    <h4 class="ic-client-name">{{ block.settings.client_name }}</h4>
+                                {% endif %}
+                                {% if block.settings.client_position != blank %}
+                                    <span>{{ block.settings.client_position }}</span>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            
+                    {% endcase %}
+                {% endfor %}
+            </div>
+            <div class="ic-testimonial-slider-nav">
+                <div class="ic-testimonial-nav-left"><i class="icofont icofont-simple-left"></i></div>
+                <div class="ic-testimonial-nav-right"><i class="icofont icofont-simple-right"></i></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+<!-- Testimonial section end here-->
+
+{% schema %}
+    {
+        "name": "Testimonial",
+        "blocks": [
+            {
+                "name": "Testimonial Slider",
+                "type": "testimonial-slider",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "client_image",
+                        "label": "Client Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "client_name",
+                        "label": "Client Name"
+                    },
+                    {
+                        "type": "text",
+                        "id": "client_position",
+                        "label": "Client Position"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "client_comment",
+                        "label": "Client Comment"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Testimonial"
+            }
+           
+        ]
+    }
+{% endschema %}
