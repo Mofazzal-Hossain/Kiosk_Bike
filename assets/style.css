@@ -6688,3 +6688,10 @@ p.form-message.success {
   content: '\eff9'!important;
   font-family: 'icofont'!important;
 }
+
+.ic-specification-list.show{
+  display: block;
+}
+.ic-specification-list{
+  display: none;
+}
