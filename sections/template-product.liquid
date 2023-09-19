@@ -10,76 +10,102 @@
                         <div class="ic-product-single-content">
                             <div class="ic-product-item-dec">
                                 <ul>
-                                    <li>{{ product.metafields.custom.product_cc }}</li>
-                                    <li>{{ product.metafields.custom.product_auto_manual }}</li>
-                                    <li>{{ product.metafields.custom.product_year }}</li>
-                                </ul>
-                            </div>
-                            <h3 class="ic-product-item-title">{{ product.title }}</h3>
-                            <h4 class="ic-product-item-price">
-                                {% if product.compare_at_price > product.price %}
-                                    <del>{{ product.compare_at_price | money }}</del> {{ product.price | money }}
-                                {% else %}
-                                    {{ product.price | money }}
-                                {% endif %}
-                            </h4>
-                            {% if product.description != blank %}
-                                <p>{{ product.description | truncatewords: 30  }}</p>
-                            {% endif %}
-                            <div class="ic-product-short-specification">
-                                <ul class="ic-specification-list">
-                                    {% for variant in product.variants %}
-                                        {% if product.available %}
-                                            <li><span>Availability:</span>{{ variant.inventory_quantity }} items</li>
-                                        {% endif %}
-                                        {% if variant.sku %}
-                                            <li><span>SKU:</span>{{ variant.sku }}</li>
-                                        {% endif %}
+                                    {% for block in section.blocks %}
+                                        {% case block.type %}
+                                            {% when 'displacement' %}
+                                                <li>{{ block.settings.displacement }}</li>
+                                            {% when 'transmission' %}
+                                                <li>{{ block.settings.transmission }}</li>
+                                            {% when 'year' %}
+                                                <li>{{ block.settings.year }}</li>
+                                            {% else %}
+                                        {% endcase %}
                                     {% endfor %}
-                                    {% if product.type != blank %}
-                                        <li><span>Product type:</span>{{ product.type }}</li>
-                                    {% endif %}
-                                    {% if product.vendor != blank %}
-                                        <li><span>Vendor:</span>{{ product.vendor }}</li>
-                                    {% endif %}
                                 </ul>
                             </div>
-                            <div class="ic-product-opt">
-                                <div class="ic-product-opt-title">Color:</div>
-                                <div class="ic-product-opt-col">
-                                    <ul class="ic-opts-list ic-opts-color">
-                                        <li>
-                                            <input type="radio" name="group1" checked="checked">
-                                            <div class="ic-product-color" style="background-color: #EE0102"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="group1">
-                                            <div class="ic-product-color" style="background-color: #636268"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="group1" >
-                                            <div class="ic-product-color" style="background-color: #696A6E"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="group1">
-                                            <div class="ic-product-color" style="background-color: #0000AA"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="group1">
-                                            <div class="ic-product-color" style="background-color: #3949D9"></div>
-                                        </li>
+                           
+                            {% for block in section.blocks %}
+                                {% case block.type %}
+                                    {% when 'title' %}
+                                        <h3 class="ic-product-item-title">{{ product.title }}</h3>
+                                    {% when 'price' %}
+                                        <h4 class="ic-product-item-price">
+                                            {% if product.compare_at_price > product.price %}
+                                                <del>{{ product.compare_at_price | money }}</del> {{ product.price | money }}
+                                            {% else %}
+                                                {{ product.price | money }}
+                                            {% endif %}
+                                        </h4>
+                                    {% when 'excerpt' %}
+                                        {% if product.description != blank %}
+                                            <p>{{ product.description | truncatewords: 30  }}</p>
+                                        {% endif %}
+                                    {% when 'description' %}
+                                {% endcase %}
+                            {% endfor %}
+                            
+                          
+                            {% form 'product', product %}
+                                <div class="ic-product-short-specification">
+                                    <ul class="ic-specification-list">
+                                        {% for block in section.blocks %}
+                                            {% case block.type %}
+                                                {% when 'availability' %}
+                                                    <li><span>Availability:</span>
+                                                        {% for variant in product.variants %}
+                                                            {% if product.available %}
+                                                                {{ variant.inventory_quantity }} items
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </li>
+                                                {% when 'sku' %}
+                                                    <li><span>SKU:</span>
+                                                        {% for variant in product.variants %}
+                                                            {% if variant.sku %}
+                                                                {{ variant.sku }}
+                                                            {% endif %}
+                                                    
+                                                        {% endfor %}
+                                                    </li>
+                                                {% when 'type' %}
+                                                    {% if product.type != blank %}
+                                                        <li><span>Product type:</span>{{ product.type }}</li>
+                                                    {% endif %}
+                                                {% when 'vendor' %}
+                                                    {% if product.vendor != blank %}
+                                                        <li><span>Vendor:</span>{{ product.vendor }}</li>
+                                                    {% endif %}
+                                                {% else %}
+                                                    
+                                            {% endcase %}
+                                        {% endfor %}
                                     </ul>
                                 </div>
-                            </div>
-                            <div class="ic-single-action-btns">
-                                <div class="ic-quantity">
-                                    <div class="ic-quantity-button ic-quantity-down"><i class="icofont icofont-minus"></i></div>
-                                    <input type="number" min="1" step="1" value="1">
-                                    <div class="ic-quantity-button ic-quantity-up"><i class="icofont icofont-plus"></i></div>
+                                <div class="ic-product-opt">
+                                    <div class="ic-product-opt-title">Color:</div>
+                                    <div class="ic-product-opt-col">
+                                        <ul class="ic-opts-list ic-opts-color ms-0">
+                                            {% if product.options_with_values %}
+                                                {% for variant in product.variants %}
+                                                    <li>
+                                                        <input type="radio" value="{{ variant.title | downcase }}" name="{{ variant.title | downcase }}" {% if forloop.index == 1 %}checked{% endif %}>
+                                                        <div class="ic-product-color" style="background-color: {{ variant.title | downcase }}"></div>
+                                                    </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </ul>
+                                    </div>
                                 </div>
-                                <a href="" class="ic-product-addcart ic-custom-btn-rvs ic-btn-sm">Add to cart</a>
-                                <a class="ic-product-wishlist" title="Wishlist" href="#"><i class="icofont icofont-heart"></i></a>
-                            </div>
+                                <div class="ic-single-action-btns">
+                                    <div class="ic-quantity">
+                                        <div class="ic-quantity-button ic-quantity-down"><i class="icofont icofont-minus"></i></div>
+                                        <input type="number" min="1" step="1" value="1">
+                                        <div class="ic-quantity-button ic-quantity-up"><i class="icofont icofont-plus"></i></div>
+                                    </div>
+                                    <button type="submit" class="ic-product-addcart ic-custom-btn-rvs ic-btn-sm">Add to cart</button>
+                                    <a class="ic-product-wishlist" title="Wishlist" href="#"><i class="icofont icofont-heart"></i></a>
+                                </div>
+                            {% endform %}
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
@@ -94,371 +120,247 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-
                         <!-- Product nav tab -->
                         <ul class="nav ic-product-nav-tabs d-none d-lg-flex" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#specification" role="tab" aria-controls="specification" aria-selected="false">Specifications</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#features" role="tab" aria-controls="features" aria-selected="false">Features Benifites</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Review</a>
-                            </li>
+                            {% for block in section.blocks %}
+                                {% case block.type %}
+                                    {% when 'description' %}
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-bs-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
+                                        </li>
+                                    {% when 'specifications' %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" href="#specification" role="tab" aria-controls="specification" aria-selected="false">Specifications</a>
+                                        </li>
+                                    {% when 'features_benifites' %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" href="#features" role="tab" aria-controls="features" aria-selected="false">Features Benifites</a>
+                                        </li>
+                                    {% when 'review' %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Review</a>
+                                        </li>
+                                    {% else %}
+                                {% endcase %}
+                            {% endfor %}
                         </ul>
                         <div class="ic-mobile-select-dropdown-wrap">
                             <ul class="nav ic-product-nav-tabs ic-mobile-select-dropdown" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-bs-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#specification" role="tab" aria-controls="specification" aria-selected="false">Specifications</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#features" role="tab" aria-controls="features" aria-selected="false">Features Benifites</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Review</a>
-                                </li>
+                                {% for block in section.blocks %}
+                                    {% case block.type %}
+                                        {% when 'description' %}
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-bs-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
+                                            </li>
+                                        {% when 'specifications' %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-bs-toggle="tab" href="#specification" role="tab" aria-controls="specification" aria-selected="false">Specifications</a>
+                                            </li>
+                                        {% when 'features_benifites' %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-bs-toggle="tab" href="#features" role="tab" aria-controls="features" aria-selected="false">Features Benifites</a>
+                                            </li>
+                                        {% when 'review' %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-bs-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Review</a>
+                                            </li>
+                                        {% else %}
+                                    {% endcase %}
+                                {% endfor %}
                             </ul>
                         </div>
                         <div class="tab-content" id="ic-product-tab-content">
-
-                            <!-- Product description -->
-                            <div class="tab-pane fade show active" id="product-desc" role="tabpanel">
-                                <div class="ic-product-desc">
-                                    {{ product.description}}
-                                </div>
-                            </div>
-
-                            <!-- Product specification -->
-                            <div class="tab-pane fade" id="specification" role="tabpanel">
-                                <div class="ic-spec">
-                                    <div class="ic-spec-section">
-                                        <h4 class="ic-spec-section-title">Engine and Transmission</h4>
-                                        {% assign custom = product.metafields.custom %}
-                                        {% if custom.engine_type != blank %}
-                                            <div class="ic-spec-row">
-                                                <div class="ic-spec-name">Engine Type</div>
-                                                <div class="ic-spec-value">{{ custom.engine_type }}</div>
-                                            </div>
-                                        {% endif %}
-                                        {% if custom.product_cc != blank %}
-                                            <div class="ic-spec-row">
-                                                <div class="ic-spec-name">Displacement</div>
-                                                <div class="ic-spec-value">{{ custom.product_cc }}</div>
-                                            </div>
-                                        {% endif %}
-                                        {% if custom.max_power != blank %}
-                                            <div class="ic-spec-row">
-                                                <div class="ic-spec-name">Max Power</div>
-                                                <div class="ic-spec-value">{{ custom.max_power }}</div>
-                                            </div>
-                                        {% endif %}
-                                        {% if custom.drive_type != blank %}
-                                            <div class="ic-spec-row">
-                                                <div class="ic-spec-name">Drive Type</div>
-                                                <div class="ic-spec-value">{{ custom.drive_type }}</div>
-                                            </div>
-                                        {% endif %}
-                                        {% if custom.product_auto_manual != blank %}
-                                            <div class="ic-spec-row">
-                                                <div class="ic-spec-name">Transmission</div>
-                                                <div class="ic-spec-value">{{ custom.product_auto_manual }}</div>
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="ic-spec-section">
-                                        <h4 class="ic-spec-section-title">Dimensions and Capacity</h4>
-                                        {% if custom.fuel_capacity != blank %}
-                                            <div class="ic-spec-row">
-                                                <div class="ic-spec-name">Fuel Capacity</div>
-                                                <div class="ic-spec-value">{{ custom.fuel_capacity }}</div>
-                                            </div>
-                                        {% endif %}
-                                        {% if custom.saddle_height != blank %}
-                                            <div class="ic-spec-row">
-                                                <div class="ic-spec-name">Saddle Height</div>
-                                                <div class="ic-spec-value">{{ custom.saddle_height }}</div>
-                                            </div>
-                                        {% endif %}
-                                        {% if custom.wheelbase != blank %}
-                                            <div class="ic-spec-row">
-                                                <div class="ic-spec-name">Wheelbase</div>
-                                                <div class="ic-spec-value">{{ custom.wheelbase }}</div>
-                                            </div>
-                                        {% endif %}
-                                        {% if custom.weight != blank %}
-                                            <div class="ic-spec-row">
-                                                <div class="ic-spec-name">Kerb Weight</div>
-                                                <div class="ic-spec-value">{{ custom.weight }}</div>
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Product features -->
-                            <div class="tab-pane fade" id="features" role="tabpanel">
-                                <div class="ic-accordion" id="accordionExample">
-                                    <div class="card">
-                                        <div class="card-header" id="headingOne">
-                                            <h2 class="mb-0">
-                                                <button class="btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                    top features
-                                                    <i class="icofont icofont-plus"></i>
-                                                    <i class="icofont icofont-minus"></i>
-                                                </button>
-                                            </h2>
-                                        </div>
-                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <h6>MotoGP®-Derived Crossplane Crankshaft Engine</h6>
-                                                <p>The 998cc inline-four-cylinder engine features Yamaha’s exclusive crossplane crankshaft technology derived from the YZR-M1 MotoGP® machine. Every aspect of this unique engine is built to thrill, and for 2020, updates include a new cylinder head, intake system, fuel injectors and airbox.</p>
-
-                                                <h6>Digital Superbike Technology</h6>
-                                                <p>For 2020, the R1® features a new cable-less ride-by-wire Yamaha Chip Controlled Throttle (YCC-T®) system that transforms the rider’s inputs into motion, with a full suite of IMU-powered electronic rider aids that bring new meaning to the term ‘rider confidence.’ New electronic features provide even greater adjustability and control, too.</p>
-
-                                                <h6>Upgraded Brakes and Tires</h6>
-                                                <p>The YZF-R1® utilizes track-focused braking hardware, featuring potent 4-piston radial-mounted front calipers, stainless steel front lines, big 320mm rotors with new high-friction pads, and an all-new compact ABS unit. New Bridgestone® RS11 tires ensure true racetrack-ready traction with balanced road feel and handling.</p>
-
-                                                <h6>Sharp New Styling</h6>
-                                                <p>The 2020 YZF-R1 features sleek new bodywork to create an even more aerodynamic profile, with an integrated and harmonious design.</p>
-
-                                                <h6>Legendary R-Series Handling</h6>
-                                                <p>Built around Yamaha’s refined Deltabox® aluminum frame technology and mounting high-spec, fully-adjustable suspension, the YZF-R1 exemplifies over 20 years of chassis technology developed on racetracks around the world.</p>
-                                                <img src="assets/images/product-single/02.jpg" alt="product-image">
+                            {% for block in section.blocks %}
+                                {% case block.type %}
+                                    {% when 'description' %}
+                                        <!-- Product description -->
+                                        <div class="tab-pane fade show active" id="product-desc" role="tabpanel">
+                                            <div class="ic-product-desc">
+                                                {{ product.description}}
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" id="headingTwo">
-                                            <h2 class="mb-0">
-                                                <button class="btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                    engine
-                                                    <i class="icofont icofont-plus"></i>
-                                                    <i class="icofont icofont-minus"></i>
-                                                </button>
-                                            </h2>
-                                        </div>
-                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <h6>MotoGP®-Derived Crossplane Crankshaft Engine</h6>
-                                                <p>The 998cc inline-four-cylinder engine features Yamaha’s exclusive crossplane crankshaft technology derived from the YZR-M1 MotoGP® machine. Every aspect of this unique engine is built to thrill, and for 2020, updates include a new cylinder head, intake system, fuel injectors and airbox.</p>
-
-                                                <h6>Digital Superbike Technology</h6>
-                                                <p>For 2020, the R1® features a new cable-less ride-by-wire Yamaha Chip Controlled Throttle (YCC-T®) system that transforms the rider’s inputs into motion, with a full suite of IMU-powered electronic rider aids that bring new meaning to the term ‘rider confidence.’ New electronic features provide even greater adjustability and control, too.</p>
-
-                                                <h6>Upgraded Brakes and Tires</h6>
-                                                <p>The YZF-R1® utilizes track-focused braking hardware, featuring potent 4-piston radial-mounted front calipers, stainless steel front lines, big 320mm rotors with new high-friction pads, and an all-new compact ABS unit. New Bridgestone® RS11 tires ensure true racetrack-ready traction with balanced road feel and handling.</p>
-
-                                                <h6>Sharp New Styling</h6>
-                                                <p>The 2020 YZF-R1 features sleek new bodywork to create an even more aerodynamic profile, with an integrated and harmonious design.</p>
-
-                                                <h6>Legendary R-Series Handling</h6>
-                                                <p>Built around Yamaha’s refined Deltabox® aluminum frame technology and mounting high-spec, fully-adjustable suspension, the YZF-R1 exemplifies over 20 years of chassis technology developed on racetracks around the world.</p>
+                                    {% when 'specifications' %}
+                                        <!-- Product specification -->
+                                        <div class="tab-pane fade" id="specification" role="tabpanel">
+                                            <div class="ic-spec">
+                                                {% if block.settings.check_engine_transmission != false %}
+                                                    <div class="ic-spec-section">
+                                                        <h4 class="ic-spec-section-title">Engine and Transmission</h4>
+                                                        
+                                                        {% if block.settings.engine_type != blank %}
+                                                            <div class="ic-spec-row">
+                                                                <div class="ic-spec-name">Engine Type</div>
+                                                                <div class="ic-spec-value">{{ block.settings.engine_type }}</div>
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if block.settings.displacement != blank %}
+                                                            <div class="ic-spec-row">
+                                                                <div class="ic-spec-name">Displacement</div>
+                                                                <div class="ic-spec-value">{{ block.settings.displacement }}</div>
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if block.settings.max_power != blank %}
+                                                            <div class="ic-spec-row">
+                                                                <div class="ic-spec-name">Max Power</div>
+                                                                <div class="ic-spec-value">{{ block.settings.max_power }}</div>
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if block.settings.drive_type != blank %}
+                                                            <div class="ic-spec-row">
+                                                                <div class="ic-spec-name">Drive Type</div>
+                                                                <div class="ic-spec-value">{{ block.settings.drive_type }}</div>
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if block.settings.transmission != blank %}
+                                                            <div class="ic-spec-row">
+                                                                <div class="ic-spec-name">Transmission</div>
+                                                                <div class="ic-spec-value">{{ block.settings.transmission }}</div>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
+                                                {% if block.settings.dimensions != false %}
+                                                    <div class="ic-spec-section">
+                                                        <h4 class="ic-spec-section-title">Dimensions and Capacity</h4>
+                                                        {% if block.settings.fuel_capacity != blank %}
+                                                            <div class="ic-spec-row">
+                                                                <div class="ic-spec-name">Fuel Capacity</div>
+                                                                <div class="ic-spec-value">{{ block.settings.fuel_capacity }}</div>
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if block.settings.saddle_height != blank %}
+                                                            <div class="ic-spec-row">
+                                                                <div class="ic-spec-name">Saddle Height</div>
+                                                                <div class="ic-spec-value">{{ block.settings.saddle_height }}</div>
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if block.settings.wheelbase != blank %}
+                                                            <div class="ic-spec-row">
+                                                                <div class="ic-spec-name">Wheelbase</div>
+                                                                <div class="ic-spec-value">{{ block.settings.wheelbase }}</div>
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if block.settings.weight != blank %}
+                                                            <div class="ic-spec-row">
+                                                                <div class="ic-spec-name">Kerb Weight</div>
+                                                                <div class="ic-spec-value">{{ block.settings.weight }}</div>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" id="headingThree">
-                                            <h2 class="mb-0">
-                                                <button class="btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                    Chassis / suspension
-                                                    <i class="icofont icofont-plus"></i>
-                                                    <i class="icofont icofont-minus"></i>
-                                                </button>
-                                            </h2>
-                                        </div>
-                                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <h6>MotoGP®-Derived Crossplane Crankshaft Engine</h6>
-                                                <p>The 998cc inline-four-cylinder engine features Yamaha’s exclusive crossplane crankshaft technology derived from the YZR-M1 MotoGP® machine. Every aspect of this unique engine is built to thrill, and for 2020, updates include a new cylinder head, intake system, fuel injectors and airbox.</p>
-
-                                                <h6>Digital Superbike Technology</h6>
-                                                <p>For 2020, the R1® features a new cable-less ride-by-wire Yamaha Chip Controlled Throttle (YCC-T®) system that transforms the rider’s inputs into motion, with a full suite of IMU-powered electronic rider aids that bring new meaning to the term ‘rider confidence.’ New electronic features provide even greater adjustability and control, too.</p>
-
-                                                <h6>Upgraded Brakes and Tires</h6>
-                                                <p>The YZF-R1® utilizes track-focused braking hardware, featuring potent 4-piston radial-mounted front calipers, stainless steel front lines, big 320mm rotors with new high-friction pads, and an all-new compact ABS unit. New Bridgestone® RS11 tires ensure true racetrack-ready traction with balanced road feel and handling.</p>
-
-                                                <h6>Sharp New Styling</h6>
-                                                <p>The 2020 YZF-R1 features sleek new bodywork to create an even more aerodynamic profile, with an integrated and harmonious design.</p>
-
-                                                <h6>Legendary R-Series Handling</h6>
-                                                <p>Built around Yamaha’s refined Deltabox® aluminum frame technology and mounting high-spec, fully-adjustable suspension, the YZF-R1 exemplifies over 20 years of chassis technology developed on racetracks around the world.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" id="headingFour">
-                                            <h2 class="mb-0">
-                                                <button class="btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                                    Aditional Features
-                                                    <i class="icofont icofont-plus"></i>
-                                                    <i class="icofont icofont-minus"></i>
-                                                </button>
-                                            </h2>
-                                        </div>
-                                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <h6>MotoGP®-Derived Crossplane Crankshaft Engine</h6>
-                                                <p>The 998cc inline-four-cylinder engine features Yamaha’s exclusive crossplane crankshaft technology derived from the YZR-M1 MotoGP® machine. Every aspect of this unique engine is built to thrill, and for 2020, updates include a new cylinder head, intake system, fuel injectors and airbox.</p>
-
-                                                <h6>Digital Superbike Technology</h6>
-                                                <p>For 2020, the R1® features a new cable-less ride-by-wire Yamaha Chip Controlled Throttle (YCC-T®) system that transforms the rider’s inputs into motion, with a full suite of IMU-powered electronic rider aids that bring new meaning to the term ‘rider confidence.’ New electronic features provide even greater adjustability and control, too.</p>
-
-                                                <h6>Upgraded Brakes and Tires</h6>
-                                                <p>The YZF-R1® utilizes track-focused braking hardware, featuring potent 4-piston radial-mounted front calipers, stainless steel front lines, big 320mm rotors with new high-friction pads, and an all-new compact ABS unit. New Bridgestone® RS11 tires ensure true racetrack-ready traction with balanced road feel and handling.</p>
-
-                                                <h6>Sharp New Styling</h6>
-                                                <p>The 2020 YZF-R1 features sleek new bodywork to create an even more aerodynamic profile, with an integrated and harmonious design.</p>
-
-                                                <h6>Legendary R-Series Handling</h6>
-                                                <p>Built around Yamaha’s refined Deltabox® aluminum frame technology and mounting high-spec, fully-adjustable suspension, the YZF-R1 exemplifies over 20 years of chassis technology developed on racetracks around the world.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" id="headingFive">
-                                            <h2 class="mb-0">
-                                                <button class="btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                                    Electronics
-                                                    <i class="icofont icofont-plus"></i>
-                                                    <i class="icofont icofont-minus"></i>
-                                                </button>
-                                            </h2>
-                                        </div>
-                                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <h6>MotoGP®-Derived Crossplane Crankshaft Engine</h6>
-                                                <p>The 998cc inline-four-cylinder engine features Yamaha’s exclusive crossplane crankshaft technology derived from the YZR-M1 MotoGP® machine. Every aspect of this unique engine is built to thrill, and for 2020, updates include a new cylinder head, intake system, fuel injectors and airbox.</p>
-
-                                                <h6>Digital Superbike Technology</h6>
-                                                <p>For 2020, the R1® features a new cable-less ride-by-wire Yamaha Chip Controlled Throttle (YCC-T®) system that transforms the rider’s inputs into motion, with a full suite of IMU-powered electronic rider aids that bring new meaning to the term ‘rider confidence.’ New electronic features provide even greater adjustability and control, too.</p>
-
-                                                <h6>Upgraded Brakes and Tires</h6>
-                                                <p>The YZF-R1® utilizes track-focused braking hardware, featuring potent 4-piston radial-mounted front calipers, stainless steel front lines, big 320mm rotors with new high-friction pads, and an all-new compact ABS unit. New Bridgestone® RS11 tires ensure true racetrack-ready traction with balanced road feel and handling.</p>
-
-                                                <h6>Sharp New Styling</h6>
-                                                <p>The 2020 YZF-R1 features sleek new bodywork to create an even more aerodynamic profile, with an integrated and harmonious design.</p>
-
-                                                <h6>Legendary R-Series Handling</h6>
-                                                <p>Built around Yamaha’s refined Deltabox® aluminum frame technology and mounting high-spec, fully-adjustable suspension, the YZF-R1 exemplifies over 20 years of chassis technology developed on racetracks around the world.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Product review -->
-                            <div class="tab-pane fade" id="review" role="tabpanel">
-                                <div class="ic-product-review">
-                                    <div class="ic-review-list">
-                                        <ul class="ic-review-list">
-                                            <li class="ic-review-item">
-                                                <div class="ic-review-body">
-                                                    <div class="ic-review-avatar">
-                                                        <img src="assets/images/product-single/review-01.png" alt="review-avatar">
-                                                    </div>
-                                                    <div class="ic-review-meta">
-                                                        <div class="ic-review-author">Robert Smith</div>
-                                                        <div class="ic-review-date">27 May, 2020</div>
-                                                    </div>
-                                                    <div class="ic-review-rating">
-                                                        <ul>
-                                                            <li class="active"><i class="icofont icofont-star"></i></li>
-                                                            <li class="active"><i class="icofont icofont-star"></i></li>
-                                                            <li class="active"><i class="icofont icofont-star"></i></li>
-                                                            <li class="active"><i class="icofont icofont-star"></i></li>
-                                                            <li><i class="icofont icofont-star"></i></li>
-                                                        </ul>
-                                                    </div>
-                                                    <p class="ic-review-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum, diam non iaculis finibus, ipsum arcu sollicitudin dolor, ut cursus sapien sem sed purus. Donec vitae fringilla tortor, sed fermentum nunc. Suspendisse sodales turpis dolor, at rutrum dolor tristique id.</p>
-                                                </div>
-                                            </li>
-                                            <li class="ic-review-item">
-                                                <div class="ic-review-body">
-                                                    <div class="ic-review-avatar">
-                                                        <img src="assets/images/product-single/review-02.png" alt="review-avatar">
-                                                    </div>
-                                                    <div class="ic-review-meta">
-                                                        <div class="ic-review-author">Robert Smith</div>
-                                                        <div class="ic-review-date">27 May, 2020</div>
-                                                    </div>
-                                                    <div class="ic-review-rating">
-                                                        <ul>
-                                                            <li class="active"><i class="icofont icofont-star"></i></li>
-                                                            <li class="active"><i class="icofont icofont-star"></i></li>
-                                                            <li class="active"><i class="icofont icofont-star"></i></li>
-                                                            <li class="active"><i class="icofont icofont-star"></i></li>
-                                                            <li class="active"><i class="icofont icofont-star"></i></li>
-                                                        </ul>
-                                                    </div>
-                                                    <p class="ic-review-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum, diam non iaculis finibus, ipsum arcu sollicitudin dolor, ut cursus sapien sem sed purus. Donec vitae fringilla tortor, sed fermentum nunc. Suspendisse sodales turpis dolor, at rutrum dolor tristique id. Quisque pellentesque ullamcorper felis, eget gravida mi elementum a.</p>
-                                                </div>
-                                            </li>
-                                            <li class="ic-review-item">
-                                                <div class="ic-review-body">
-                                                    <div class="ic-review-avatar">
-                                                        <img src="assets/images/product-single/review-03.png" alt="review-avatar">
-                                                    </div>
-                                                    <div class="ic-review-meta">
-                                                        <div class="ic-review-author">Robert Smith</div>
-                                                        <div class="ic-review-date">27 May, 2020</div>
-                                                    </div>
-                                                    <div class="ic-review-rating">
-                                                        <ul>
-                                                            <li class="active"><i class="icofont icofont-star"></i></li>
-                                                            <li class="active"><i class="icofont icofont-star"></i></li>
-                                                            <li class="active"><i class="icofont icofont-star"></i></li>
-                                                            <li><i class="icofont icofont-star"></i></li>
-                                                            <li><i class="icofont icofont-star"></i></li>
-                                                        </ul>
-                                                    </div>
-                                                    <p class="ic-review-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum, diam non iaculis finibus, ipsum arcu sollicitudin dolor, ut cursus sapien sem sed purus.</p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <form class="ic-review-form" action="#">
-                                        <h3 class="ic-review-form-title">Write A Review</h3>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-4">
-                                                        <input type="text" class="form-control" id="ic-review-author" placeholder="Your Name">
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <input type="text" class="form-control" id="ic-review-email" placeholder="Email Address">
-                                                    </div>
-                                                    <div class="form-group ic-review-star-form col-md-4">
-                                                        <label>Review Stars :</label>
-                                                        <div class="ic-review-rating">
-                                                            <ul>
-                                                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                                                <li><i class="icofont icofont-star"></i></li>
-                                                                <li><i class="icofont icofont-star"></i></li>
-                                                            </ul>
+                                    {% when 'features_benifites' %}
+                                        <!-- Product features -->
+                                        <div class="tab-pane fade" id="features" role="tabpanel">
+                                            <div class="ic-accordion" id="accordionExample">
+                                                {% if block.settings.top_features != blank %}
+                                                    <div class="card">
+                                                        <div class="card-header" id="headingOne">
+                                                            <h2 class="mb-0">
+                                                                <button class="btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                    top features
+                                                                    <i class="icofont icofont-plus"></i>
+                                                                    <i class="icofont icofont-minus"></i>
+                                                                </button>
+                                                            </h2>
+                                                        </div>
+                                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                            <div class="card-body">
+                                                                {{ block.settings.top_features }}
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <textarea class="form-control" placeholder="Write Your Review" id="ic-review-text" rows="8"></textarea>
-                                                </div>
-                                                <div class="form-group mb-0 mt-4">
-                                                    <button type="submit" class="ic-custom-btn-rvs ic-btn-lg">Post Your Review</button>
-                                                </div>
+                                                {% endif %}
+            
+                                                {% if block.settings.engine != blank %}
+                                                    <div class="card">
+                                                        <div class="card-header" id="headingTwo">
+                                                            <h2 class="mb-0">
+                                                                <button class="btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                    engine
+                                                                    <i class="icofont icofont-plus"></i>
+                                                                    <i class="icofont icofont-minus"></i>
+                                                                </button>
+                                                            </h2>
+                                                        </div>
+                                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                                            <div class="card-body">
+                                                                {{ block.settings.engine }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% if block.settings.chassis_suspension != blank %}
+                                                    <div class="card">
+                                                        <div class="card-header" id="headingThree">
+                                                            <h2 class="mb-0">
+                                                                <button class="btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                                    Chassis / suspension
+                                                                    <i class="icofont icofont-plus"></i>
+                                                                    <i class="icofont icofont-minus"></i>
+                                                                </button>
+                                                            </h2>
+                                                        </div>
+                                                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                                            <div class="card-body">
+                                                                {{ block.settings.chassis_suspension }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% if block.settings.additional_features != blank %}
+                                                    <div class="card">
+                                                        <div class="card-header" id="headingFour">
+                                                            <h2 class="mb-0">
+                                                                <button class="btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                                    Aditional Features
+                                                                    <i class="icofont icofont-plus"></i>
+                                                                    <i class="icofont icofont-minus"></i>
+                                                                </button>
+                                                            </h2>
+                                                        </div>
+                                                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                                                            <div class="card-body">
+                                                                {{ block.settings.additional_features }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% if custom.electronics_content != blank %}
+                                                    <div class="card">
+                                                        <div class="card-header" id="headingFive">
+                                                            <h2 class="mb-0">
+                                                                <button class="btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                                                    Electronics
+                                                                    <i class="icofont icofont-plus"></i>
+                                                                    <i class="icofont icofont-minus"></i>
+                                                                </button>
+                                                            </h2>
+                                                        </div>
+                                                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+                                                            <div class="card-body">
+                                                               
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                
                                             </div>
                                         </div>
-                                    </form>
-                                </div>
-                            </div>
+                                    {% when 'review' %}
+                                   
+                                        <!-- Product review -->
+                                        <div class="tab-pane fade" id="review" role="tabpanel">
+                                            <div class="ic-product-review">
+                                                {{ block.settings.review_title }}
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                {% endcase %}
+                            {% endfor %}   
+
+                          
                         </div>
                     </div>
                 </div>
@@ -466,3 +368,191 @@
         </div>
     </section>
     <!-- Product single section end here-->
+
+
+    {% schema %}
+        {
+            "name": "Product Information",
+            "blocks": [
+                {
+                    "name": "Displacement",
+                    "type": "displacement",
+                    "limit": 1,
+                    "settings": [
+                        {
+                            "type": "text",
+                            "id": "displacement",
+                            "label": "Displacement"
+                        }
+                    ]
+                },
+                {
+                    "name": "Transmission",
+                    "type": "transmission",
+                    "limit": 1,
+                    "settings": [
+                        {
+                            "type": "text",
+                            "id": "transmission",
+                            "label": "Transmission"
+                        }
+                    ]
+                },
+                {
+                    "name": "Year",
+                    "type": "year",
+                    "limit": 1,
+                    "settings": [
+                        {
+                            "type": "text",
+                            "id": "year",
+                            "label": "Year"
+                        }
+                    ]
+                },
+                {
+                    "name": "Title",
+                    "type": "title",
+                    "limit": 1
+                },
+                {
+                    "name": "Price",
+                    "type": "price",
+                    "limit": 1
+                },
+                {
+                    "name": "Excerpt",
+                    "type": "excerpt",
+                    "limit": 1
+                },
+                {
+                    "name": "Availability",
+                    "type": "availability",
+                    "limit": 1
+                },
+                {
+                    "name": "SKU",
+                    "type": "sku",
+                    "limit": 1
+                },
+                {
+                    "name": "Type",
+                    "type": "type",
+                    "limit": 1
+                },
+                {
+                    "name": "Vendor",
+                    "type": "vendor",
+                    "limit": 1
+                },
+                {
+                    "name": "Description",
+                    "type": "description",
+                    "limit": 1
+                },
+                {
+                    "name": "Specifications",
+                    "type": "specifications",
+                    "limit": 1,
+                    "settings": [
+                        {
+                            "type": "checkbox",
+                            "id": "check_engine_transmission",
+                            "label": "Engine and Transmission",
+                            "default": true
+                        },
+                        {
+                            "type": "text",
+                            "id": "engine_type",
+                            "label": "Engine Type"
+                        },
+                        {
+                            "type": "text",
+                            "id": "displacement",
+                            "label": "Displacement"
+                        },
+                        {
+                            "type": "text",
+                            "id": "max_power",
+                            "label": "Max Power"
+                        },
+                        {
+                            "type": "text",
+                            "id": "drive_type",
+                            "label": "Drive Type"
+                        },
+                        {
+                            "type": "text",
+                            "id": "transmission",
+                            "label": "Transmission"
+                        },
+                        {
+                            "type": "checkbox",
+                            "id": "dimensions",
+                            "label": "Dimensions and Capacity",
+                            "default": true
+                        },
+                        {
+                            "type": "text",
+                            "id": "fuel_capacity",
+                            "label": "Fuel Capacity"
+                        },
+                        {
+                            "type": "text",
+                            "id": "saddle_height",
+                            "label": "Saddle Height"
+                        },
+                        {
+                            "type": "text",
+                            "id": "wheelbase",
+                            "label": "Wheelbase"
+                        },
+                        {
+                            "type": "text",
+                            "id": "weight",
+                            "label": "Kerb Weight"
+                        }
+                    ]
+                },
+                {
+                    "name": "Features Benifites",
+                    "type": "features_benifites",
+                    "limit": 1,
+                    "settings": [
+                        {
+                            "type": "richtext",
+                            "id": "top_features",
+                            "label": "Top Features"
+                        },
+                        {
+                            "type": "richtext",
+                            "id": "engine",
+                            "label": "Engine"
+                        },
+                        {
+                            "type": "richtext",
+                            "id": "chassis_suspension",
+                            "label": "Chassis / Suspension"
+                        },
+                        {
+                            "type": "richtext",
+                            "id": "additional_features",
+                            "label": "Additional Features"
+                        }
+                    ]
+                },
+                {
+                    "name": "Review Widget",
+                    "type": "review",
+                    "settings": [
+                        {
+                            "type": "richtext",
+                            "id": "review_title",
+                            "label": "Review Title"
+                        }
+                    ]
+                }
+            ]
+        }
+    {% endschema %}
+    
