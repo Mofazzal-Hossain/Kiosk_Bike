@@ -584,3 +584,71 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 })
 
+// variation
+var disableCart = document.getElementById("addToCart");
+
+product.variants.find(variant =>{
+    if(variant.available == false)
+    {
+        disableCart.setAttribute('disabled', 'true');
+        disablePlus.setAttribute('disabled', 'true');
+        disablePlus.addEventListener('click', function(event) {
+            event.preventDefault();
+            // Stop the event propagation
+            event.stopPropagation();
+        })
+    }
+})
+
+document.querySelectorAll(".ic-opts-list input[type='radio']").forEach(radio =>{
+    radio.addEventListener('change', () => {
+        var showList = document.getElementsByClassName("ic-specification-list");
+       
+        // Remove the 'show' class from all elements with the class 'ic-specification-list'
+        for (var i = 0; i < showList.length; i++) {
+            showList[i].classList.remove('show');
+        }
+        const selectedOptions=[];
+        document.querySelectorAll(".ic-opts-list input[type='radio']:checked").forEach(radio =>{
+            selectedOptions.push(radio.value);
+        })
+    
+        const matchedVariant = product.variants.find(variant => {
+            var pass = true;
+            console.log(variant);
+            disableCart.setAttribute('disabled', 'false');
+            if(variant.available == false){
+                disableCart.setAttribute('disabled', 'true');
+            }
+            for(var i=0; i<selectedOptions.length; i++){
+                if(selectedOptions.indexOf(variant.options[i]) === -1){
+                    pass = false;
+                    break;
+                }
+            }
+            if (pass) {
+                const elementId = variant.id; // Assuming the ID of the variant corresponds to the element's ID
+                const matchingElement = document.getElementById(elementId);
+                if (matchingElement) {
+                    matchingElement.classList.add('show');
+                }
+            }
+          
+            return pass;
+        })
+        // if (matchedVariant) {
+        //     // sku
+        //     const productSku = matchedVariant.sku;
+        //     var appendSku = document.getElementById("sku_item");
+        //     appendSku.innerHTML='';
+        //     appendSku.innerHTML+= productSku;
+
+        //     // quantity
+        //     const inventoryQuantity = matchedVariant.inventory_quantity;
+        //     var appendQuantity = document.getElementById("available_item");
+        //     appendQuantity.innerHTML='';
+        //     appendQuantity.innerHTML+= inventoryQuantity;
+
+        // } 
+    })
+})

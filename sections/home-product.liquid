@@ -222,50 +222,38 @@
                                 <h4 class="ic-product-item-price">{{ product.price | money }}</h4>
                             {% endif %}
                             <div class="ic-product-short-specification">
-                                <ul class="ic-specification-list">
-                                    {% for variant in product.variants %}
+                                {% for variant in product.variants %}
+                                    <ul class="ic-specification-list {% if forloop.index == 1 %}show{% endif %}">
                                         {% if product.available %}
                                             <li><span>Availability:</span>{{ variant.inventory_quantity }} items</li>
                                         {% endif %}
                                         {% if variant.sku %}
                                             <li><span>SKU:</span>{{ variant.sku }}</li>
                                         {% endif %}
-                                    {% endfor %}
-                                    {% if product.type != blank %}
-                                        <li><span>Product type:</span>{{ product.type }}</li>
-                                    {% endif %}
-                                    {% if product.vendor != blank %}
-                                        <li><span>Vendor:</span>{{ product.vendor }}</li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                            <div class="ic-product-opt">
-                                <div class="ic-product-opt-title">Color:</div>
-                                <div class="ic-product-opt-col">
-                                    <ul class="ic-opts-list ic-opts-color">
-                                        <li>
-                                            <input type="radio" name="group1" checked="checked">
-                                            <div class="ic-product-color" style="background-color: #EE0102"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="group1">
-                                            <div class="ic-product-color" style="background-color: #636268"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="group1" >
-                                            <div class="ic-product-color" style="background-color: #696A6E"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="group1">
-                                            <div class="ic-product-color" style="background-color: #0000AA"></div>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="group1">
-                                            <div class="ic-product-color" style="background-color: #3949D9"></div>
-                                        </li>
+                                        {% if product.type != blank %}
+                                            <li><span>Product type:</span>{{ product.type }}</li>
+                                        {% endif %}
+                                        {% if product.vendor != blank %}
+                                            <li><span>Vendor:</span>{{ product.vendor }}</li>
+                                        {% endif %}
                                     </ul>
-                                </div>
+                                {% endfor %}
                             </div>
+                            {% unless product.has_only_default_variant %}
+                                <div class="ic-product-opt">
+                                    <div class="ic-product-opt-title">Color:</div>
+                                    <div class="ic-product-opt-col">
+                                        <ul class="ic-opts-list ic-opts-color ms-0">
+                                            {% for variant in product.variants %}
+                                                <li>
+                                                    <input type="radio" value="{{ variant.title | downcase }}" name="{{ variant.title | downcase }}" {% if forloop.index == 1 %}checked{% endif %}>
+                                                    <div class="ic-product-color" style="background-color: {{ variant.title | downcase }}"></div>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endunless %}
                             <div class="ic-single-action-btns">
                                 <div class="ic-quantity">
                                     <div class="ic-quantity-button ic-quantity-down"><i class="icofont icofont-minus"></i></div>

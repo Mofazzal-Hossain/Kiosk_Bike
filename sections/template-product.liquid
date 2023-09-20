@@ -44,10 +44,12 @@
                                 {% endcase %}
                             {% endfor %}
                             
-                            {% form 'product', product %}
+                            {% form 'product', product, id:'product-form', novalidate: 'novalidate' %}
+                                <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
                                 <div class="ic-product-short-specification">
+
                                    {% for variant in product.variants %}
-                                        <ul class="ic-specification-list{% if forloop.index == 1 %}show{% endif %}">
+                                        <ul class="ic-specification-list {% if forloop.index == 1 %}show{% endif %}" id="{{ variant.id }}">
                                             {% for block in section.blocks %}
                                                 {% case block.type %}
                                                     {% when 'availability' %}
@@ -58,8 +60,10 @@
                                                         </li>
                                                     {% when 'sku' %}
                                                         <li><span>SKU:</span>
-                                                            {% if variant.sku %}
+                                                            {% if variant.sku != blank %}
                                                                 {{ variant.sku }}
+                                                            {% else %}
+                                                                <span>Not set yet</span>
                                                             {% endif %}
                                                         </li>
                                                     {% when 'type' %}
@@ -78,27 +82,41 @@
                                    {% endfor %}
                                 </div>
                                 {% unless product.has_only_default_variant %}
-                                    <div class="ic-product-opt">
-                                        <div class="ic-product-opt-title">Color:</div>
-                                        <div class="ic-product-opt-col">
-                                            <ul class="ic-opts-list ic-opts-color ms-0">
-                                                {% for variant in product.variants %}
-                                                    <li>
-                                                        <input type="radio" value="{{ variant.title | downcase }}" name="{{ variant.title | downcase }}" {% if forloop.index == 1 %}checked{% endif %}>
-                                                        <div class="ic-product-color" style="background-color: {{ variant.title | downcase }}"></div>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
+                                   
+                                    {% for option in product.options_with_values %}
+                                        <div class="ic-product-opt">
+                                            <div class="ic-product-opt-title">{{ option.name }}</div>
+                                            <div class="ic-product-opt-col">
+                                                <ul class="ic-opts-list ic-opts-{{ option.name }} ms-0">
+                                                    {% for value in option.values %}
+                                                        <li>
+                                                            <input type="radio" 
+                                                                {% if option.selected_value == value %}checked{% endif %} 
+                                                                name="{{ option.name }}"
+                                                                value="{{ value  }}"
+                                                                id="{{ option.name | handleize}}-{{ value | handleize }}"
+                                                            >
+                                                        <label for="{{ option.name | handleize}}-{{ value | handleize }}"> {{ value }}</label>
+                                                            {% comment %} <div class="ic-product-color" style="background-color: {{ value.name | downcase }}"></div> {% endcomment %}
+                                                        </li>
+                                                    {% endfor %}
+                                                    <script>
+                                                        var product = {{ product | json }}
+                                                    </script>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
+                                    {% endfor %}
+                                  
                                 {% endunless %}
+                             
                                 <div class="ic-single-action-btns">
                                     <div class="ic-quantity">
                                         <div class="ic-quantity-button ic-quantity-down"><i class="icofont icofont-minus"></i></div>
-                                        <input type="number" min="1" step="1" value="1">
-                                        <div class="ic-quantity-button ic-quantity-up"><i class="icofont icofont-plus"></i></div>
+                                        <input type="number" name="quantity" min="1" step="1" value="1">
+                                        <div class="ic-quantity-button ic-quantity-up" id="plus"><i class="icofont icofont-plus"></i></div>
                                     </div>
-                                    <button type="submit" class="ic-product-addcart ic-custom-btn-rvs ic-btn-sm">Add to cart</button>
+                                    <button type="submit" id="addToCart" class="ic-product-addcart ic-custom-btn-rvs ic-btn-sm">Add to cart</button>
                                     <a class="ic-product-wishlist" title="Wishlist" href="#"><i class="icofont icofont-heart"></i></a>
                                 </div>
                             {% endform %}
@@ -551,4 +569,3 @@
             ]
         }
     {% endschema %}
-    
